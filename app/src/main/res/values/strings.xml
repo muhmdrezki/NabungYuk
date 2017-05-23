@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">SavingPlan</string>
+    <string name="app_name">Nabung Yuk !</string>
     <string name="pengeluaranTV">Pengeluaran </string>
+    <string-array name="lamanabung">
+        <item> Bulan  </item>
+        <item> Minggu </item>
+    </string-array>
 </resources>
