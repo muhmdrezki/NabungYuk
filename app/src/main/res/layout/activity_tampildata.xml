@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.rezki.savingplan.tampildata">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jumlah Pemasukkan Anda"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_marginTop="13dp"
+        android:id="@+id/textView5"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <TextView
+        android:id="@+id/PemasukanTV"
+        android:layout_width="250dp"
+        android:textSize="15dp"
+        android:layout_height="wrap_content"
+        android:text="Pemasukkan Anda"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_marginLeft="43dp"
+        android:layout_marginStart="43dp"
+        android:layout_below="@+id/textView5"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jumlah Pengeluaran Anda"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-smallcaps"
+        android:id="@+id/textView"
+        android:layout_below="@+id/PemasukanTV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/PengeluaranTV"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Pengeluaran Anda"
+        android:textSize="15dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_below="@+id/textView"
+        android:layout_alignLeft="@+id/PemasukanTV"
+        android:layout_alignStart="@+id/PemasukanTV" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Jumlah Target Menabung Anda"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_below="@+id/PengeluaranTV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/targetTV"
+        android:layout_width="250dp"
+        android:textSize="15dp"
+        android:layout_height="wrap_content"
+        android:text="Target Anda"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_below="@+id/textView2"
+        android:layout_alignLeft="@+id/PengeluaranTV"
+        android:layout_alignStart="@+id/PengeluaranTV" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jumlah Target Menabung Anda"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-smallcaps"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/targetTV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+    <TextView
+        android:id="@+id/sisauangTV"
+        android:layout_width="250dp"
+        android:textSize="15dp"
+        android:layout_height="wrap_content"
+        android:text="Sisa Uang"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_below="@+id/textView3"
+        android:layout_alignLeft="@+id/targetTV"
+        android:layout_alignStart="@+id/targetTV" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Jumlah Target Menabung Anda"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_below="@+id/sisauangTV"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView4" />
+    <TextView
+        android:id="@+id/nabungandaTV"
+        android:textSize="15dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Nabung"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_below="@+id/textView4"
+        android:layout_alignLeft="@+id/sisauangTV"
+        android:layout_alignStart="@+id/sisauangTV" />
+</RelativeLayout>
