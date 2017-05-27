@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,14 +24,14 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClickListener{
 
-    private String mPostkey;
-    private DatabaseReference databaseReference, user_db;
+    private String mPostkey, key;
+    private DatabaseReference databaseReference, tabunganRef, user_db;
     private EditText etnabung;
     private Button btn_tabung;
     private TextView tv_namaplanfinal, tv_namatujuanfinal, tv_targetnabung, tv_tabungan;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-    private String tabunganbaru1;
+    private String tabunganbaru1, tbg;
     private ProgressDialog progressdialog;
 
     @Override
@@ -44,7 +45,9 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
         user = firebaseAuth.getCurrentUser();
         user_db = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
 
+
         mPostkey = getIntent().getExtras().getString("post_id");
+
 
         tv_namaplanfinal = (TextView) findViewById(R.id.tv_namaplanfinal);
         tv_namatujuanfinal = (TextView) findViewById(R.id.tv_namatujuanfinal);
@@ -68,6 +71,7 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
                 tv_namatujuanfinal.setText(namatujuan);
                 tv_targetnabung.setText(targetnabung);
                 tv_tabungan.setText("Rp. "+tabungan);
+                tbg = tabungan;
             }
 
             @Override
@@ -77,50 +81,29 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
         });
     }
 
-    public void tabung(){
-        String tabungan = tv_tabungan.getText().toString().trim();
+
+    public void tabung() {
+        String tabungan = tbg.toString().trim();
         String nabung = etnabung.getText().toString().trim();
 
-        if(!TextUtils.isEmpty(tabungan)){
+        if (!TextUtils.isEmpty(tabungan)) {
             Integer inttabungan = Integer.parseInt(tabungan);
             Integer intnabung = Integer.parseInt(nabung);
 
-            Integer tabunganbaru = intnabung+inttabungan;
+            Integer tabunganbaru = intnabung + inttabungan;
 
             final String tabungan_baru = tabunganbaru.toString().trim();
             tabunganbaru1 = tabungan_baru;
+            databaseReference.child(mPostkey).child("tabungan").setValue(tabunganbaru1);
         }
-        //Proses Upload
-        //Menampilkan Progress Bar
-        progressdialog.show();
-        //Database Push
-        final DatabaseReference newPost = databaseReference.push();
-        user_db.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                newPost.child("tabungan").setValue(tabunganbaru1).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            progressdialog.dismiss();
-                            Toast.makeText(SavingPlanFinalAct.this, " Tabungan Berhasil Ditambahkan ", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
+
+
 
     @Override
     public void onClick(View view) {
         if(view==btn_tabung){
-            //tabung();
+            tabung();
         }
     }
 }
