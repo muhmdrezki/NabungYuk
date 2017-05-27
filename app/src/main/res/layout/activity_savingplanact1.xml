@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.rezki.savingplan.SavingPlanAct1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="77dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Jelas kan tujuan anda !"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Beri nama plan anda"
+            android:layout_marginTop="50dp"
+            android:textSize="18dp"
+            android:fontFamily="sans-serif"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            />
+        <EditText
+            android:id="@+id/etnamaplan"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:hint="Nama Plan"
+            android:textSize="17dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Apa tujuan anda menabung?"
+            android:textSize="18dp"
+            android:fontFamily="sans-serif"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            />
+        <Spinner
+            android:id="@+id/spn_tujuan_nabung"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/spn_tujuan"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            />
+        <Button
+            android:id="@+id/btn_next_act1"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            android:text="lanjutkan"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

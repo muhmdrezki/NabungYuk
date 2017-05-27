@@ -1,8 +1,22 @@
 <resources>
     <string name="app_name">Nabung Yuk !</string>
     <string name="pengeluaranTV">Pengeluaran </string>
-    <string-array name="lamanabung">
+    <string-array name="spn_lamanabung">
         <item> Bulan  </item>
         <item> Minggu </item>
+    </string-array>
+    <string-array name="spn_pilihtarget">
+        <item> Bulan </item>
+        <item> Minggu </item>
+    </string-array>
+    <string-array name="spn_tujuan">
+        <item> Pilih </item>
+        <item> Beli Gadget Baru </item>
+        <item> Beli Baju/Aksesoris Baru </item>
+        <item> Beli Keperluan Hobi</item>
+        <item> Untuk Modal Usaha</item>
+        <item> Untuk Sekolah / Pendidikan</item>
+        <item> Liburan </item>
+        <item> Lainnya</item>
     </string-array>
 </resources>

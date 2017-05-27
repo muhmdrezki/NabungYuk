@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "987104399725",
+    "firebase_url": "https://nabung-yuk-fa289.firebaseio.com",
+    "project_id": "nabung-yuk-fa289",
+    "storage_bucket": "nabung-yuk-fa289.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987104399725:android:38c74928781d6bfd",
+        "android_client_info": {
+          "package_name": "com.example.rezki.savingplan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "987104399725-v9ofouccge776cvhv743adjoq1dufgka.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rezki.savingplan",
+            "certificate_hash": "104ddb210fd5131d47e1d44b53d420cabcb08e42"
+          }
+        },
+        {
+          "client_id": "987104399725-vnolcct7lkhvgufcqbtjto4o5p1u3dav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp5YcZeNV_eZVH_2P4rh2TOogLm_lZrzA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "987104399725-vnolcct7lkhvgufcqbtjto4o5p1u3dav.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

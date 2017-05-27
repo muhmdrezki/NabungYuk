@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.rezki.savingplan.SavingPlanAct2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SAVING PLAN"
+            android:textAlignment="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp"
+            android:textSize="40dp"/>
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Pemasukan/Bulan"
+            android:textStyle="bold"
+            android:textSize="19dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            />
+        <EditText
+            android:id="@+id/jmlpemasukkan"
+            android:textSize="18dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="Jumlah Pemasukkan Anda /Bulan"
+            android:inputType="number"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Pengeluaran/Bulan"
+            android:textStyle="bold"
+            android:textSize="19dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            />
+        <EditText
+            android:id="@+id/jmlpengeluaran"
+            android:textSize="18dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="Jumlah Pengeluaran Anda /Bulan"
+            android:inputType="number"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Jumlah Target"
+            android:textStyle="bold"
+            android:textSize="19dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center"
+            />
+        <EditText
+            android:id="@+id/targetnabung"
+            android:layout_width="300dp"
+            android:textSize="18dp"
+            android:layout_height="wrap_content"
+            android:hint="Target Menabung Anda"
+            android:inputType="number"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Target Waktu"
+            android:textStyle="bold"
+            android:textSize="19dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <EditText
+            android:id="@+id/targetwaktu"
+            android:layout_width="150dp"
+            android:textSize="18dp"
+            android:layout_height="wrap_content"
+            android:hint="Bulan (Optional)"
+            android:inputType="number"
+            android:layout_marginLeft="35dp"
+            />
+         <Spinner
+             android:layout_width="130dp"
+             android:layout_height="wrap_content"
+             android:entries="@array/spn_pilihtarget"
+             android:layout_marginLeft="10dp"
+             android:id="@+id/spn_pilihtarget"
+             android:textSize="18dp"></Spinner>
+        </LinearLayout>
+        <Button
+            android:id="@+id/kalkulasi"
+            android:layout_width="130dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:text="Kalkulasi"
+            android:background="#E23535"
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
+</RelativeLayout>
