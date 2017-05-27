@@ -109,6 +109,7 @@
             android:layout_gravity="center"
             />
         <Button
+            android:id="@+id/btn_tabung"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

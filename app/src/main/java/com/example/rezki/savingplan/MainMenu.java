@@ -55,7 +55,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
         if(view==btn_logout){
             auth.signOut();
         } else if(view==tv_savingplan){
-            Intent loginIntent = new Intent(MainMenu.this, SavingPlanAct1.class);
+            Intent loginIntent = new Intent(MainMenu.this, SavingPlan_List.class);
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(loginIntent);
         }

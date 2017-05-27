@@ -26,7 +26,8 @@
         <activity android:name=".SavingPlanAct2" />
         <activity android:name=".MainMenu" />
         <activity android:name=".SavingPlanAct1" />
-        <activity android:name=".SavingPlanFinalAct"></activity>
+        <activity android:name=".SavingPlanFinalAct" />
+        <activity android:name=".SavingPlan_List"></activity>
     </application>
 
 </manifest>
