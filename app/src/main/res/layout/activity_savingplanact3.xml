@@ -9,6 +9,7 @@
     android:weightSum="1">
 
     <TextView
+        android:id="@+id/coba"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Rincian Saving Plan Anda"
@@ -131,38 +132,13 @@
         android:layout_gravity="center"
         />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
 
-        android:layout_gravity="center"
-        >
-        <Spinner
-            android:id="@+id/lamaspin"
-            android:layout_width="125dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
-            android:textAlignment="center"
-            android:entries="@array/spn_lamanabung"></Spinner>
-        <Button
-            android:layout_width="125dp"
-            android:layout_height="32dp"
-            android:background="#2979FF"
-            android:text="apply"
-            android:textAlignment="center"
-            android:textSize="11dp"
-            android:textColor="#FFFFFF"
-            android:id="@+id/apply">
-        </Button>
-    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="60dp">
         <TextView
             android:layout_width="250dp"
             android:layout_height="wrap_content"

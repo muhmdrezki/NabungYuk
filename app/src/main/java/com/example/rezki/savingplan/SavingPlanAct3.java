@@ -2,6 +2,9 @@ package com.example.rezki.savingplan;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -24,19 +27,27 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.util.Date;
+
 public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickListener{
 
 
     private TextView pengeluaranTV, pemasukanTV, targetnabungTV, sisauangTV, nabungandaTV;
-    private TextView lamanabungTV;
+    private TextView lamanabungTV, coba;
     private String pengeluaran1, pemasukkan1, target1, targetwkt1, spn_targetwkt1, tujuan_nabung1, nama_plan1 ;
-    private String pengeluaransave, pemasukkansave, targetsave, nabungbulansave, nabungmggsave, sisasave;
+    private String pengeluaransave, pemasukkansave, targetsave, nabungbulansave, nabungmggsave, sisasave,  tgl_sekarang;
     private Spinner lamaspin;
     private Button Apply, btn_next_act3;
     private DatabaseReference databaseReference, user_db;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
     private ProgressDialog progressdialog;
+
+    private String target_tanggal;
+    private String tanggal_skrng;
+
+    private Integer bulan, hari, tahun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,21 +66,17 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
         sisauangTV = (TextView) findViewById(R.id.sisauangTV);
         nabungandaTV = (TextView) findViewById(R.id.nabungandaTV);
         lamanabungTV = (TextView) findViewById(R.id.lamanabungTV);
-
-        lamaspin = (Spinner) findViewById(R.id.lamaspin);
+        coba = (TextView) findViewById(R.id.coba);
 
         btn_next_act3 = (Button) findViewById(R.id.btn_next_act3);
         btn_next_act3.setOnClickListener(this);
-
-        Apply = (Button) findViewById(R.id.apply);
-        Apply.setOnClickListener(this);
 
         //pemanggilan dari mainact
         Bundle b = getIntent().getExtras();
         String pengeluaran = b.getString("pengeluaran");
         String pemasukkan = b.getString("pemasukkan");
         String target = b.getString("target");
-        String targetwkt = b.getString("target_waktu");
+        String targetwkt = b.getString("target_tanggal");
         String spn_targetwkt = b.getString("spn_targetwaktu");
         String tujuan_nabung = b.getString("tujuan_nabung");
         String nama_plan = b.getString("nama_plan");
@@ -81,13 +88,71 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
         pengeluaran1 = pengeluaran;
         pemasukkan1 = pemasukkan;
         target1 = target;
-        targetwkt1 = targetwkt;
         spn_targetwkt1 = spn_targetwkt;
         tujuan_nabung1 = tujuan_nabung;
         nama_plan1 = nama_plan;
 
 
+
+        ambilTanggalSkrng();
+        tanggal_skrng = tgl_sekarang;
+        target_tanggal = targetwkt;
+        hitungHari();
         hitung();
+    }
+
+
+    public void ambilTanggalSkrng(){
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            tgl_sekarang = dateFormat.format(date);
+
+    }
+
+    public void hitungHari() {
+        int mYear, mMonth, mDay;
+        final Calendar c = Calendar.getInstance();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar tanggaltarget = Calendar.getInstance();
+        Calendar now = Calendar.getInstance();
+        Date date2= null;
+        try {
+            date2 = format.parse(target_tanggal);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        tanggaltarget.setTime(date2);
+
+
+        Date date1= null;
+        try {
+            date1 = format.parse(tanggal_skrng);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        now.setTime(date1);
+
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+        now.set(mYear, mMonth, mDay);
+
+        int years = tanggaltarget.get(Calendar.YEAR) - now.get(Calendar.YEAR);
+        int months = tanggaltarget.get(Calendar.MONTH) - now.get(Calendar.MONTH);
+        int days = tanggaltarget.get(Calendar.DAY_OF_MONTH) - now.get(Calendar.DAY_OF_MONTH);
+        if (days < 0) {
+            months--;
+            days += now.getActualMaximum(Calendar.DAY_OF_MONTH);
+        }
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+        String coba1 = years + " tahun " + months + " bulan " + days + " hari";
+        coba.setText(coba1);
+        bulan = months;
+        hari = days;
+        tahun = years;
     }
 
     public void hitung() {
@@ -95,96 +160,56 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
         final String pengeluaran = pengeluaran1.toString().trim();
         final String pemasukkan  = pemasukkan1.toString().trim();
         final String target      = target1.toString().trim();
-        final String lama        = lamaspin.getSelectedItem().toString().trim();
-        if(targetwkt1!=null) {
-            final String targetwkt = targetwkt1.toString().trim();
+        final String satuan_bulan   = bulan.toString().trim();
+        final String satuan_hari = hari.toString().trim();
+        final String satuan_tahun = tahun.toString().trim();
 
-            //Jika Target Diisi
+        Integer minggu=0;
+
             final Integer inttarget = Integer.parseInt(target);
-            final Integer intwaktu = Integer.parseInt(targetwkt);
+            final Integer intbulan = Integer.parseInt(satuan_bulan);
             final Integer intpengeluaran = Integer.parseInt(pengeluaran);
             final Integer intpemasukan = Integer.parseInt(pemasukkan);
+            final Integer inthari = Integer.parseInt(satuan_hari);
+            final Integer inttahun = Integer.parseInt(satuan_tahun);
 
-            if(lama.equals("Bulan")) {
                 final Integer intsisa = intpemasukan - intpengeluaran;
-                final Integer intnabungbln = inttarget / intwaktu;
-                final Integer intlamabln = intwaktu;
 
-                //Konversi Integer - String
-                final String nabungbln = intnabungbln.toString().trim();
-                final String sisa = intsisa.toString().trim();
-                final String lamabln = intlamabln.toString().trim();
+                        if ((intbulan==0) && (inthari>=7) && (inttahun==0)){
+                            final Integer intminggu = inthari / 7;
+                            minggu = intminggu;
+                        } else if((intbulan>0) && (inttahun==0) && (inthari>=0)){
+                            final Integer intminggu = intbulan * 4;
+                            minggu = intminggu;
+                        } else if ((inttahun>0) && (intbulan>=0) && (inthari>=0)){
+                            final Integer intminggu = inttahun * 52;
+                            minggu = intminggu;
+                        } else if ((intbulan<=0) && (inthari<7) && (inttahun<=0)){
+                            final Integer intminggu=0;
+                            minggu = intminggu;
+                        }
+                    if(minggu != 0) {
+                        final Integer intnabung = (intsisa * 20 / 100) / minggu;
+                        final Integer intlama = minggu;
 
-                sisauangTV.setText("Rp " + sisa);
-                nabungandaTV.setText("Rp " + nabungbln + " /bulan");
-                lamanabungTV.setText("Selama " + lamabln + " bulan");
-                nabungbulansave = nabungbln;
-                sisasave = sisa;
+                        //Konversi Integer - String
+                        final String nabung = intnabung.toString().trim();
+                        final String sisa = intsisa.toString().trim();
+                        final String lama = intlama.toString().trim();
 
-            } else if (lama.equals("Minggu")){
-                final Integer intsisa = intpemasukan - intpengeluaran;
-                final Integer intnabungbln = inttarget / intwaktu;
-                final Integer intlamabln = intwaktu;
-                final Integer intnabungmgg = intnabungbln/4;
-                final Integer intlamamgg = inttarget*4/intnabungbln;
+                        sisauangTV.setText("Rp " + sisa);
+                        nabungandaTV.setText("Rp " + nabung + " /minggu");
+                        lamanabungTV.setText("Selama " + lama + " minggu");
 
-                //Konversi Integer - String
-                final String nabungmgg = intnabungmgg.toString().trim();
-                final String sisa = intsisa.toString().trim();
-                final String lamamgg = intlamamgg.toString().trim();
-
-                sisauangTV.setText("Rp " + sisa);
-                nabungandaTV.setText("Rp " + nabungmgg + " /minggu");
-                lamanabungTV.setText("Selama " + lamamgg + " minggu");
-                sisasave = sisa;
-            }
-
-        } else if (targetwkt1==null){
-            //Konversi Ke Integer
-            final Integer intpengeluaran = Integer.parseInt(pengeluaran);
-            final Integer intpemasukan = Integer.parseInt(pemasukkan);
-            final Integer inttarget = Integer.parseInt(target);
-
-            //Lama menabung dalam bulan
-
-            if(lama.equals("Bulan")) {
-                //Proses Perhitungan
-                final Integer intsisa = intpemasukan - intpengeluaran;
-                final Integer intnabungbln = intsisa * 20 / 100;
-                final Integer intlamabln = inttarget / intnabungbln;
-                //Konversi Integer - String
-                final String nabungbln = intnabungbln.toString().trim();
-                final String sisa = intsisa.toString().trim();
-                final String lamabln = intlamabln.toString().trim();
-
-                sisauangTV.setText("Rp " + sisa);
-                nabungandaTV.setText("Rp " + nabungbln + " /bulan");
-                lamanabungTV.setText("Selama " + lamabln + " bulan");
-                nabungbulansave = nabungbln;
-                sisasave = sisa;
-
-                //Lama menabung dalam minggu
-                    } else if (lama.equals("Minggu")){
-                    //Proses Perhitungan
-                    final Integer intsisa = intpemasukan - intpengeluaran;
-                    final Integer intnabungbln = intsisa * 20 / 100;
-                    final Integer intnabungmgg = intnabungbln / 4;
-                    final Integer intlamamgg = inttarget * 4/intnabungbln;
-
-                    //Konversi Integer - String
-                    final String nabungmgg = intnabungmgg.toString().trim();
-                    final String sisa = intsisa.toString().trim();
-                    final String lamamgg = intlamamgg.toString().trim();
-
-                    sisauangTV.setText("Rp " + sisa);
-                    nabungandaTV.setText("Rp " + nabungmgg + " /minggu");
-                    lamanabungTV.setText("Selama " + lamamgg + " minggu");
-                    sisasave = sisa;
-        }
-      }
-        targetsave = target;
-        pengeluaransave = pengeluaran;
-        pemasukkansave = pemasukkan;
+                        nabungbulansave = nabung;
+                        sisasave = sisa;
+                        targetsave = target;
+                        pengeluaransave = pengeluaran;
+                        pemasukkansave = pemasukkan;
+                    } else {
+                        Toast.makeText(SavingPlanAct3.this, "Target Minimal 1 Minggu dari Hari ini", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SavingPlanAct3.this, "Silahkan Klik ULANGI DARI AWAL", Toast.LENGTH_LONG).show();
+                    }
    }
 
     //Fungsi Posting
@@ -200,7 +225,7 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
 
         //Proses Upload
             //Menampilkan Progress Bar
-            progressdialog.setMessage("Posting, Please Wait");
+            progressdialog.setMessage("Menyimpan Data..");
             progressdialog.show();
                     //Database Push
                     final DatabaseReference newPost = databaseReference.push();

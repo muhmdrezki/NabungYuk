@@ -1,35 +1,47 @@
 
 package com.example.rezki.savingplan;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.icu.util.Calendar;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SavingPlanAct2 extends AppCompatActivity implements View.OnClickListener{
 
-    private EditText jmlpengeluaran, jmlpemasukan, targetnabung, targetwaktu;
-    private Spinner spn_targetwaktu;
-    private Button kalkulasi;
+    private EditText jmlpengeluaran, jmlpemasukan, targetnabung;
+    private TextView targetwaktu;
+    private Button kalkulasi, btn_date;
 
     private String nama_plan1, tujuan_nabung1;
+    private Calendar calendar;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_savingplanact2);
 
+        calendar = Calendar.getInstance();
+
         jmlpengeluaran = (EditText) findViewById(R.id.jmlpengeluaran);
         jmlpemasukan = (EditText) findViewById(R.id.jmlpemasukkan);
         targetnabung = (EditText) findViewById(R.id.targetnabung);
-        targetwaktu = (EditText) findViewById(R.id.targetwaktu);
-        spn_targetwaktu = (Spinner) findViewById(R.id.spn_pilihtarget);
+        targetwaktu = (TextView) findViewById(R.id.targetwaktu);
 
+        btn_date = (Button) findViewById(R.id.btn_date);
+        btn_date.setOnClickListener(this);
         kalkulasi = (Button) findViewById(R.id.kalkulasi);
         kalkulasi.setOnClickListener(this);
 
@@ -45,15 +57,28 @@ public class SavingPlanAct2 extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         if(view==kalkulasi) {
             proses();
+        } else if(view==btn_date){
+            ambilTanggal();
         }
     }
+
+    public void ambilTanggal(){
+        new DatePickerDialog(SavingPlanAct2.this, listener, calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    DatePickerDialog.OnDateSetListener listener  = new DatePickerDialog.OnDateSetListener(){
+        @Override
+        public void onDateSet(DatePicker datePicker, int year, int month_of_year, int day_of_month){
+                targetwaktu.setText(year+"-"+(month_of_year+ 1 )+ "-"+day_of_month);
+        }
+    };
 
     public void proses(){
         String pengeluaran = jmlpengeluaran.getText().toString().trim();
         String pemasukkan = jmlpemasukan.getText().toString().trim();
         String target = targetnabung.getText().toString().trim();
         String targetwkt = targetwaktu.getText().toString().trim();
-        String spn_targetwkt = spn_targetwaktu.getSelectedItem().toString().trim();
 
         if(TextUtils.isEmpty(pengeluaran)) {
             Toast.makeText(this, "Jumlah Pengeluaran Harus Diisi",Toast.LENGTH_LONG).show();
@@ -78,8 +103,7 @@ public class SavingPlanAct2 extends AppCompatActivity implements View.OnClickLis
                 b.putString("pengeluaran", pengeluaran);
                 b.putString("pemasukkan", pemasukkan);
                 b.putString("target", target);
-                b.putString("target_waktu",targetwkt);
-                b.putString("spn_targetwaktu", spn_targetwkt);
+                b.putString("target_tanggal",targetwkt);
                 b.putString("nama_plan", nama_plan1);
                 b.putString("tujuan_nabung", tujuan_nabung1);
 

@@ -95,22 +95,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <EditText
+        <TextView
             android:id="@+id/targetwaktu"
             android:layout_width="150dp"
             android:textSize="18dp"
             android:layout_height="wrap_content"
-            android:hint="Bulan (Optional)"
+            android:text="Target"
             android:inputType="number"
             android:layout_marginLeft="35dp"
             />
-         <Spinner
-             android:layout_width="130dp"
-             android:layout_height="wrap_content"
-             android:entries="@array/spn_pilihtarget"
-             android:layout_marginLeft="10dp"
-             android:id="@+id/spn_pilihtarget"
-             android:textSize="18dp"></Spinner>
+
+            <Button
+                android:id="@+id/btn_date"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:text="Pilih tanggal"
+                />
         </LinearLayout>
         <Button
             android:id="@+id/kalkulasi"
