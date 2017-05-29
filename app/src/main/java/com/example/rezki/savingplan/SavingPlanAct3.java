@@ -189,20 +189,23 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
                             minggu = intminggu;
                         }
                     if(minggu != 0) {
-                        final Integer intnabung = (intsisa * 20 / 100) / minggu;
+                        final Integer divnabung = inttarget / minggu;
+                        final Integer modnabung = inttarget % minggu;
+                        final Integer intnabung = divnabung + modnabung;
                         final Integer intlama = minggu;
+                        final Integer uangjaga = intsisa - (intnabung * 4);
 
                         //Konversi Integer - String
                         final String nabung = intnabung.toString().trim();
-                        final String sisa = intsisa.toString().trim();
+                        final String pegangan = uangjaga.toString().trim();
                         final String lama = intlama.toString().trim();
 
-                        sisauangTV.setText("Rp " + sisa);
+                        sisauangTV.setText("Rp " + pegangan+" /bulan");
                         nabungandaTV.setText("Rp " + nabung + " /minggu");
                         lamanabungTV.setText("Selama " + lama + " minggu");
 
                         nabungbulansave = nabung;
-                        sisasave = sisa;
+                        sisasave = pegangan;
                         targetsave = target;
                         pengeluaransave = pengeluaran;
                         pemasukkansave = pemasukkan;
@@ -269,3 +272,5 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
         }
     }
 }
+
+
