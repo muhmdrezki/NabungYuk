@@ -149,7 +149,6 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
             months += 12;
         }
         String coba1 = years + " tahun " + months + " bulan " + days + " hari";
-        coba.setText(coba1);
         bulan = months;
         hari = days;
         tahun = years;
