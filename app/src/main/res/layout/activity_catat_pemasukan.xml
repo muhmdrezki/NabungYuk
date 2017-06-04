@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/sp4"
     tools:context="com.example.rezki.savingplan.CatatPemasukanAct">
 
     <TextView
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="PEMASUKAN"
         android:textSize="19dp"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#f9f9f9"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="10dp"/>
     <TextView
@@ -21,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text="Date : dd/MM/yyyy"
         android:textSize="18dp"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#f9f9f9"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"/>
     <TextView
@@ -30,7 +31,7 @@
         android:text="Nominal"
         android:textSize="18dp"
         android:inputType="number"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#f9f9f9"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"/>
     <EditText
@@ -38,6 +39,8 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:hint="Nominal"
+        android:backgroundTint="#f9f9f9"
+        android:textColor="#f9f9f9"
         android:layout_gravity="center"/>
 
     <TextView
@@ -47,11 +50,12 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"
         android:textSize="18dp"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="#f9f9f9"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="5dp">
     <RadioGroup
         android:id="@+id/radiogroup_kategori"
@@ -62,6 +66,7 @@
             android:id="@+id/radio_gaji"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#f9f9f9"
             android:text="Gaji"
             android:layout_marginRight="5dp"/>
         <RadioButton
@@ -69,17 +74,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
+            android:textColor="#f9f9f9"
             android:text="Hadiah"/>
         <RadioButton
             android:id="@+id/radio_LabaUsaha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
+            android:textColor="#f9f9f9"
             android:text="Laba Usaha"/>
         <RadioButton
             android:id="@+id/radio_dll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#f9f9f9"
             android:text="Lain-Lain"/>
         </RadioGroup>
     </LinearLayout>
@@ -91,10 +99,12 @@
         android:layout_marginTop="10dp"
         android:textSize="18dp"
         android:layout_marginLeft="20dp"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="#f9f9f9"/>
     <EditText
         android:id="@+id/et_detail_pemasukan"
         android:layout_width="250dp"
+        android:backgroundTint="#f9f9f9"
+        android:textColor="#f9f9f9"
         android:layout_height="60dp"
         android:hint="Details Here"
         android:layout_gravity="center"
@@ -107,7 +117,7 @@
         android:text="Tanggal (Optional)"
         android:textSize="18dp"
         android:layout_marginLeft="20dp"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="#f9f9f9"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -120,14 +130,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Date"
+            android:textColor="#f9f9f9"
             android:textSize="18dp"
             android:layout_marginTop="5dp"
             />
         <Button
             android:id="@+id/btn_pilihtanggal"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="Pilih Tanggal"
+            android:background="#E23535"
+            android:textColor="#f9f9f9"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="46dp"/>
     </LinearLayout>
@@ -137,6 +150,8 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="Simpan"
+        android:background="#E23535"
+        android:textColor="#f9f9f9"
         android:layout_marginTop="40dp"
         android:layout_gravity="center"
         />

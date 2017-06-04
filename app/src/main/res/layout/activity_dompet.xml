@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/sp4"
     tools:context="com.example.rezki.savingplan.DompetActivity">
 
     <TextView
@@ -11,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="dd/MM/yyyy"
+        android:textColor="#F9F9F9"
         android:gravity="end"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
@@ -20,7 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
+        android:padding="7dp"
         android:text="UANG ANDA"
+        android:textColor="#F9F9F9"
+        android:background="#50F9F9F9"
         android:textSize="30dp"
         android:gravity="center"
         />
@@ -29,41 +34,56 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25dp"
+        android:padding="7dp"
+        android:background="#50F9F9F9"
+        android:textColor="#F9F9F9"
         android:text="Rp. 0,-"
-        android:layout_marginTop="10dp"
         android:gravity="center"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_pemasukan"
-            android:layout_width="131dp"
+            android:layout_width="145dp"
             android:layout_height="wrap_content"
+            android:background="#1D64CE"
+            android:textColor="#f9f9f9"
             android:text="PEMASUKAN"/>
         <Button
             android:id="@+id/btn_pengeluaran"
-            android:layout_width="131dp"
+            android:layout_width="145dp"
+            android:textColor="#f9f9f9"
+            android:background="#E23535"
             android:layout_height="wrap_content"
             android:text="PENGELUARAN"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="290dp"
+        android:layout_height="120dp"
+        android:orientation="vertical"
+        android:layout_marginTop="25dp"
+        android:layout_gravity="center"
+        android:background="#80212121"
+        android:gravity="center">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Pemasukan Terakhir"
         android:textSize="17dp"
-        android:layout_marginTop="20dp"
+        android:textColor="#EECB3F"
         android:gravity="center"/>
     <TextView
         android:id="@+id/tv_tgl_pemasukan_terakhir"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#EECB3F"
         android:text="dd/MM/yyyy"
         android:textSize="16dp"
         android:gravity="center"/>
@@ -73,13 +93,16 @@
         android:layout_height="wrap_content"
         android:text="Pengeluaran Terakhir"
         android:textSize="17dp"
-        android:layout_marginTop="20dp"
+        android:textColor="#EECB3F"
+        android:layout_marginTop="10dp"
         android:gravity="center"/>
     <TextView
         android:id="@+id/tv_tgl_pengeluaran_terakhir"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="dd/MM/yyyy"
+        android:textColor="#EECB3F"
         android:textSize="16dp"
         android:gravity="center"/>
+    </LinearLayout>
 </LinearLayout>
