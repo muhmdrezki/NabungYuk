@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/sp2"
     tools:context="com.example.rezki.savingplan.SavingPlanAct2">
 
     <LinearLayout
@@ -11,24 +12,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/linearLayout"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SAVING PLAN"
-            android:textAlignment="center"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="15dp"
-            android:textSize="40dp"/>
 
         <TextView
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:text="Pemasukan/Bulan"
             android:textStyle="bold"
+            android:textColor="#f9f9f9f9"
             android:textSize="19dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="20dp"
@@ -38,6 +31,9 @@
             android:id="@+id/jmlpemasukkan"
             android:textSize="18dp"
             android:layout_width="300dp"
+            android:backgroundTint="#f9f9f9"
+            android:textColor="#f9f9f9"
+            android:textColorHint="#f9f9f9f9"
             android:layout_height="wrap_content"
             android:hint="Jumlah Pemasukkan Anda /Bulan"
             android:inputType="number"
@@ -48,6 +44,7 @@
             android:layout_height="wrap_content"
             android:text="Pengeluaran/Bulan"
             android:textStyle="bold"
+            android:textColor="#f9f9f9f9"
             android:textSize="19dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
@@ -57,6 +54,9 @@
             android:id="@+id/jmlpengeluaran"
             android:textSize="18dp"
             android:layout_width="300dp"
+            android:backgroundTint="#f9f9f9"
+            android:textColor="#f9f9f9"
+            android:textColorHint="#f9f9f9f9"
             android:layout_height="wrap_content"
             android:hint="Jumlah Pengeluaran Anda /Bulan"
             android:inputType="number"
@@ -67,6 +67,7 @@
             android:layout_height="wrap_content"
             android:text="Jumlah Target"
             android:textStyle="bold"
+            android:textColor="#f9f9f9f9"
             android:textSize="19dp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
@@ -76,6 +77,9 @@
             android:id="@+id/targetnabung"
             android:layout_width="300dp"
             android:textSize="18dp"
+            android:backgroundTint="#f9f9f9"
+            android:textColor="#f9f9f9"
+            android:textColorHint="#f9f9f9f9"
             android:layout_height="wrap_content"
             android:hint="Target Menabung Anda"
             android:inputType="number"
@@ -86,6 +90,7 @@
             android:layout_height="wrap_content"
             android:text="Target Waktu"
             android:textStyle="bold"
+            android:textColor="#f9f9f9f9"
             android:textSize="19dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
@@ -99,6 +104,7 @@
             android:id="@+id/targetwaktu"
             android:layout_width="150dp"
             android:textSize="18dp"
+            android:textColor="#f9f9f9f9"
             android:layout_height="wrap_content"
             android:text="Target"
             android:inputType="number"
@@ -108,20 +114,23 @@
             <Button
                 android:id="@+id/btn_date"
                 android:layout_width="150dp"
-                android:layout_height="40dp"
+                android:background="#E23535"
+                android:layout_height="30dp"
+                android:textColor="#f9f9f9"
                 android:text="Pilih tanggal"
                 />
         </LinearLayout>
-        <Button
-            android:id="@+id/kalkulasi"
-            android:layout_width="130dp"
-            android:layout_height="42dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            android:text="Kalkulasi"
-            android:background="#E23535"
-            android:textColor="#FFFFFF"
-            android:textAlignment="center"
-            />
     </LinearLayout>
+    <Button
+        android:id="@+id/kalkulasi"
+        android:layout_width="250dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:text="Kalkulasi"
+        android:background="#E23535"
+        android:textColor="#FFFFFF"
+        android:textAlignment="center"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="29dp" />
 </RelativeLayout>

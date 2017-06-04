@@ -4,117 +4,234 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/sp4"
     tools:context="com.example.rezki.savingplan.SavingPlanFinalAct">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="30dp"
         android:gravity="center"
         android:id="@+id/linearLayout3"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
         <TextView
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:text="Nama Plan Anda"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            />
-        <TextView
             android:id="@+id/tv_namaplanfinal"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nama"
-            android:textSize="18dp"
-            android:layout_marginTop="5dp"
-            />
-        <TextView
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:text="Tujuan Anda"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginTop="10dp"
-            />
-        <TextView
-            android:id="@+id/tv_namatujuanfinal"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:text="Tujuan"
-            android:textSize="18dp"
-            android:layout_marginTop="5dp"
-            />
-        <TextView
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:text="Jumlah Target"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginTop="10dp"
-            />
-        <TextView
-            android:id="@+id/tv_targetnabung"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:text="Target"
-            android:textSize="18dp"
-            android:layout_marginTop="5dp"
-            />
-    </LinearLayout>
+            android:text="NAMA PLAN"
+            android:textSize="25dp"
+            android:textAlignment="center"
+            android:textColor="#f9f9f9"
+            android:layout_marginBottom="20dp"/>
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginLeft="40dp"
         android:layout_below="@+id/linearLayout3"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="33dp"
-        android:id="@+id/linearLayout4">
+        android:id="@+id/linearLayout6">
         <TextView
-            android:layout_width="250dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Tabungan Anda Saat Ini"
-            android:textSize="20dp"
-            android:layout_gravity="center"
-            android:textAlignment="center"
+            android:text="Jenis Plan"
+            android:textStyle="bold"
+            android:layout_marginLeft="-10dp"
+            android:textColor="#f9f9f9"
+            android:textSize="18dp"
             />
         <TextView
-            android:id="@+id/tv_tabungan"
-            android:layout_width="250dp"
+            android:id="@+id/textView4"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Rp. 0"
-            android:textSize="40dp"
-            android:textAlignment="center"
+            android:text="Jumlah Target"
+            android:textColor="#f9f9f9"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="26dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/linearLayout6"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/tv_namatujuanfinal"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Tujuan"
+            android:layout_marginLeft="20dp"
+            android:textColor="#f9f9f9"
+            android:textSize="18dp"
+            android:layout_marginTop="5dp"
+            />
+        <TextView
+            android:id="@+id/tv_targetnabung"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Target"
+            android:layout_marginLeft="10dp"
+            android:textColor="#f9f9f9"
+            android:textSize="18dp"
             android:layout_marginTop="5dp"
             />
     </LinearLayout>
+<LinearLayout
+    android:id="@id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_below="@id/linearLayout5">
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Anda akan mencapai target, jika anda menabung sebanyak"
+        android:layout_gravity="center"
+        android:textSize="16dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#f9f9f9"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/tv_nabungmgg"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Rp.xxx.xxx / Minggu"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:textColor="#f9f9f9"
+        android:textSize="17dp"
+        />
+</LinearLayout>
+
     <LinearLayout
+        android:id="@id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@+id/linearLayout4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="24dp">
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_below="@id/linearLayout">
 
-        <EditText
-            android:id="@+id/etnabung"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:hint="Nominal"
-            android:inputType="number"
-            android:layout_gravity="center"
-            />
+        <Spinner
+            android:id="@+id/spn_convertwaktu"
+            android:layout_width="110dp"
+            android:layout_height="30dp"
+            android:entries="@array/spn_lamanabung"
+            android:backgroundTint="#e23535"
+            android:background="#f9f9f9">
+        </Spinner>
         <Button
-            android:id="@+id/btn_tabung"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Tabung"/>
+            android:id="@+id/btn_apply"
+            android:layout_width="110dp"
+            android:layout_height="30dp"
+            android:background="#e23535"
+            android:layout_marginLeft="25dp"
+            android:textColor="#f9f9f9"
+            android:text="Apply"/>
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:id="@+id/linearLayout7">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Deadline : "
+            android:textColor="#f9f9f9"
+            android:textSize="17dp"
+            />
+        <TextView
+            android:id="@+id/tv_dateAkhir"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="dd/MM/yyy"
+            android:textColor="#f9f9f9"
+            android:textSize="17dp"
+            />
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/linearLayout7"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:layout_width="250dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="#ECECEC"
+                android:text="Tabungan Anda Saat Ini"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_tabungan"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="-5dp"
+                android:background="#f9f9f9"
+                android:text="Rp. 0"
+                android:textAlignment="center"
+                android:textSize="35dp" />
+            <EditText
+                android:id="@+id/etnabung"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Nominal"
+                android:inputType="number"
+                android:textColor="#f9f9f9"
+                android:textColorHint="#ECECEC"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:backgroundTint="#f9f9f9"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linearLayout3">
+
+                <Button
+                    android:id="@+id/btn_tabung"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:background="#E23535"
+                    android:layout_marginLeft="58dp"
+                    android:gravity="center"
+                    android:text="Tabung"
+                    android:textColor="#f9f9f9" />
+
+            </LinearLayout>
+        </LinearLayout>
+
 
 </RelativeLayout>

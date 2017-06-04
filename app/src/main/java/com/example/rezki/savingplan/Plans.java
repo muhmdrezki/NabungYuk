@@ -7,6 +7,25 @@ package com.example.rezki.savingplan;
 public class Plans {
     private String target;
     private String tabungan;
+    private String tglmulai;
+
+    public String getTgltarget() {
+        return tgltarget;
+    }
+
+    public void setTgltarget(String tgltarget) {
+        this.tgltarget = tgltarget;
+    }
+
+    private String tgltarget;
+
+    public String getTglmulai() {
+        return tglmulai;
+    }
+
+    public void setTglmulai(String tglmulai) {
+        this.tglmulai = tglmulai;
+    }
 
     public String getNama_plan() {
         return nama_plan;

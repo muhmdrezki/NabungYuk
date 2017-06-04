@@ -1,12 +1,20 @@
 package com.example.rezki.savingplan;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.google.android.gms.common.data.Freezable;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SavingPlanAct1 extends AppCompatActivity implements View.OnClickListener{
 
@@ -37,6 +45,65 @@ public class SavingPlanAct1 extends AppCompatActivity implements View.OnClickLis
 
         pindah.putExtras(b);
         startActivity(pindah);
+    }
+
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        final String TAG = this.getClass().getName();
+        Log.d(TAG, "click");
+
+        if (doubleBackToExitPressedOnce==true) {
+            //super.onBackPressed();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            System.exit(0);
+        }
+        doubleBackToExitPressedOnce=true;
+        Log.d(TAG, "twice "+ doubleBackToExitPressedOnce);
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+                Log.d(TAG, "twice "+ doubleBackToExitPressedOnce);
+            }
+        }, 3000);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.toolbar_dompet, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()== R.id.main_menu) {
+
+            startActivity(new Intent(SavingPlanAct1.this,MainMenu.class));
+
+        } else if ( item.getItemId() == R.id.logout){
+
+            logout();
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+
+        FirebaseAuth auth;
+        auth = FirebaseAuth.getInstance();
+        auth.signOut();
+
     }
 
     @Override

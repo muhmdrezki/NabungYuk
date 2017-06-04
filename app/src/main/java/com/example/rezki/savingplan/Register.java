@@ -2,10 +2,12 @@ package com.example.rezki.savingplan;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -83,6 +85,34 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
             });
         }
 
+    }
+
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        final String TAG = this.getClass().getName();
+        Log.d(TAG, "click");
+
+        if (doubleBackToExitPressedOnce==true) {
+            //super.onBackPressed();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            System.exit(0);
+        }
+        doubleBackToExitPressedOnce=true;
+        Log.d(TAG, "twice "+ doubleBackToExitPressedOnce);
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+                Log.d(TAG, "twice "+ doubleBackToExitPressedOnce);
+            }
+        }, 3000);
     }
 
     @Override

@@ -6,10 +6,14 @@ import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -37,8 +41,9 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
     private TextView lamanabungTV, coba;
     private String pengeluaran1, pemasukkan1, target1, targetwkt1, spn_targetwkt1, tujuan_nabung1, nama_plan1 ;
     private String pengeluaransave, pemasukkansave, targetsave, nabungbulansave, nabungmggsave, sisasave,  tgl_sekarang;
+    private TextView datemulai, dateakhir;
     private Spinner lamaspin;
-    private Button Apply, btn_next_act3;
+    private Button Apply, btn_next_act3, btn_ulangi;
     private DatabaseReference databaseReference, user_db;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
@@ -66,8 +71,11 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
         sisauangTV = (TextView) findViewById(R.id.sisauangTV);
         nabungandaTV = (TextView) findViewById(R.id.nabungandaTV);
         lamanabungTV = (TextView) findViewById(R.id.lamanabungTV);
-        coba = (TextView) findViewById(R.id.coba);
+        dateakhir = (TextView) findViewById(R.id.tv_dateselesai);
+        datemulai = (TextView) findViewById(R.id.tv_datemulai);
 
+        btn_ulangi = (Button) findViewById(R.id.btn_ulangi);
+        btn_ulangi.setOnClickListener(this);
         btn_next_act3 = (Button) findViewById(R.id.btn_next_act3);
         btn_next_act3.setOnClickListener(this);
 
@@ -85,6 +93,7 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
         pemasukanTV.setText("Rp."+pemasukkan);
         targetnabungTV.setText("Rp."+target);
 
+
         pengeluaran1 = pengeluaran;
         pemasukkan1 = pemasukkan;
         target1 = target;
@@ -92,16 +101,44 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
         tujuan_nabung1 = tujuan_nabung;
         nama_plan1 = nama_plan;
 
-
-
         ambilTanggalSkrng();
         tanggal_skrng = tgl_sekarang;
         target_tanggal = targetwkt;
         hitungHari();
         hitung();
+
+        datemulai.setText(tanggal_skrng);
+        dateakhir.setText(target_tanggal);
+
     }
 
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        final String TAG = this.getClass().getName();
+        Log.d(TAG, "click");
 
+        if (doubleBackToExitPressedOnce==true) {
+            //super.onBackPressed();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            System.exit(0);
+        }
+        doubleBackToExitPressedOnce=true;
+        Log.d(TAG, "twice "+ doubleBackToExitPressedOnce);
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+                Log.d(TAG, "twice "+ doubleBackToExitPressedOnce);
+            }
+        }, 3000);
+    }
     public void ambilTanggalSkrng(){
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
@@ -155,65 +192,71 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
     }
 
     public void hitung() {
-
         final String pengeluaran = pengeluaran1.toString().trim();
-        final String pemasukkan  = pemasukkan1.toString().trim();
-        final String target      = target1.toString().trim();
-        final String satuan_bulan   = bulan.toString().trim();
+        final String pemasukkan = pemasukkan1.toString().trim();
+        final String target = target1.toString().trim();
+        final String satuan_bulan = bulan.toString().trim();
         final String satuan_hari = hari.toString().trim();
         final String satuan_tahun = tahun.toString().trim();
 
-        Integer minggu=0;
+        Integer minggu = 0;
+        Integer hari = 0;
 
-            final Integer inttarget = Integer.parseInt(target);
-            final Integer intbulan = Integer.parseInt(satuan_bulan);
-            final Integer intpengeluaran = Integer.parseInt(pengeluaran);
-            final Integer intpemasukan = Integer.parseInt(pemasukkan);
-            final Integer inthari = Integer.parseInt(satuan_hari);
-            final Integer inttahun = Integer.parseInt(satuan_tahun);
+        final Integer inttarget = Integer.parseInt(target);
+        final Integer intbulan = Integer.parseInt(satuan_bulan);
+        final Integer intpengeluaran = Integer.parseInt(pengeluaran);
+        final Integer intpemasukan = Integer.parseInt(pemasukkan);
+        final Integer inthari = Integer.parseInt(satuan_hari);
+        final Integer inttahun = Integer.parseInt(satuan_tahun);
 
-                final Integer intsisa = intpemasukan - intpengeluaran;
+        final Integer intsisa = intpemasukan - intpengeluaran;
 
-                        if ((intbulan==0) && (inthari>=7) && (inttahun==0)){
-                            final Integer intminggu = inthari / 7;
-                            minggu = intminggu;
-                        } else if((intbulan>0) && (inttahun==0) && (inthari>=0)){
-                            final Integer intminggu = intbulan * 4;
-                            minggu = intminggu;
-                        } else if ((inttahun>0) && (intbulan>=0) && (inthari>=0)){
-                            final Integer intminggu = inttahun * 52;
-                            minggu = intminggu;
-                        } else if ((intbulan<=0) && (inthari<7) && (inttahun<=0)){
-                            final Integer intminggu=0;
-                            minggu = intminggu;
-                        }
-                    if(minggu != 0) {
-                        final Integer divnabung = inttarget / minggu;
-                        final Integer modnabung = inttarget % minggu;
-                        final Integer intnabung = divnabung + modnabung;
-                        final Integer intlama = minggu;
-                        final Integer uangjaga = intsisa - (intnabung * 4);
+        if ((intbulan == 0) && (inthari >= 7) && (inttahun == 0)) {
+            final Integer intminggu = inthari / 7;
+            minggu = intminggu;
+            hari = inthari;
+        } else if ((intbulan > 0) && (inttahun == 0) && (inthari >= 0)) {
+            final Integer intminggu = intbulan * 4;
+            minggu = intminggu;
+            hari = inthari;
+        } else if ((inttahun > 0) && (intbulan >= 0) && (inthari >= 0)) {
+            final Integer intminggu = inttahun * 52;
+            minggu = intminggu;
+            hari = inthari;
+        } else if ((intbulan <= 0) && (inthari < 7) && (inttahun <= 0)) {
+            final Integer intminggu = 0;
+            minggu = intminggu;
+        }
+        if (minggu != 0) {
+            final Integer divnabung = inttarget / minggu;
+            final Integer modnabung = inttarget % minggu;
+            final Integer intnabung = divnabung + modnabung;
+            final Integer intlama = minggu;
+            Integer uangjaga = intsisa - (intnabung * 4);
 
-                        //Konversi Integer - String
-                        final String nabung = intnabung.toString().trim();
-                        final String pegangan = uangjaga.toString().trim();
-                        final String lama = intlama.toString().trim();
+            if (uangjaga < 0) {
+                uangjaga = 0;
+            }
+            //Konversi Integer - String
+            final String nabung = intnabung.toString().trim();
+            final String pegangan = uangjaga.toString().trim();
+            final String lama = intlama.toString().trim();
 
-                        sisauangTV.setText("Rp " + pegangan+" /bulan");
-                        nabungandaTV.setText("Rp " + nabung + " /minggu");
-                        lamanabungTV.setText("Selama " + lama + " minggu");
+            sisauangTV.setText("Rp " + pegangan + " /bulan");
+            nabungandaTV.setText("Rp " + nabung + " /minggu");
+            lamanabungTV.setText("Selama " + lama + " minggu");
 
-                        nabungbulansave = nabung;
-                        sisasave = pegangan;
-                        targetsave = target;
-                        pengeluaransave = pengeluaran;
-                        pemasukkansave = pemasukkan;
-                    } else {
-                        Toast.makeText(SavingPlanAct3.this, "Target Minimal 1 Minggu dari Hari ini", Toast.LENGTH_LONG).show();
-                        Toast.makeText(SavingPlanAct3.this, "Silahkan Klik ULANGI DARI AWAL", Toast.LENGTH_LONG).show();
-                    }
-   }
+            nabungbulansave = nabung;
+            sisasave = pegangan;
+            targetsave = target;
+            pengeluaransave = pengeluaran;
+            pemasukkansave = pemasukkan;
 
+        } else {
+            Toast.makeText(SavingPlanAct3.this, "Target Minimal 1 Minggu dari Hari ini", Toast.LENGTH_LONG).show();
+            Toast.makeText(SavingPlanAct3.this, "Silahkan Klik ULANGI DARI AWAL", Toast.LENGTH_LONG).show();
+        }
+    }
     //Fungsi Posting
     private void SavePlan() {
         //Deklarasi Variable
@@ -224,6 +267,8 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
         final String namaplan = nama_plan1.toString().trim();
         final String tujuannabung = tujuan_nabung1.toString().trim();
         final String sisa = sisasave.toString().trim();
+        final String tgl_skrng = tanggal_skrng.trim();
+        final String tgl_target = target_tanggal.trim();
 
         //Proses Upload
             //Menampilkan Progress Bar
@@ -242,6 +287,8 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
                             newPost.child("pengeluaran").setValue(pengeluaran);
                             newPost.child("pemasukkan").setValue(pemasukkan);
                             newPost.child("nabungperbulan").setValue(nabungbln);
+                            newPost.child("tglmulai").setValue(tgl_skrng);
+                            newPost.child("tgltarget").setValue(tgl_target);
                             newPost.child("sisa").setValue(sisa);
                             newPost.child("nama").setValue(dataSnapshot.child("nama").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -263,11 +310,44 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
                 }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.toolbar_dompet, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()== R.id.main_menu) {
+
+            startActivity(new Intent(SavingPlanAct3.this,MainMenu.class));
+
+        } else if ( item.getItemId() == R.id.logout){
+
+            logout();
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+
+        FirebaseAuth auth;
+        auth = FirebaseAuth.getInstance();
+        auth.signOut();
+
+    }
+
+    @Override
     public void onClick(View view) {
         if(view==Apply){
             hitung();
         } else if(view==btn_next_act3){
             SavePlan();
+        } else if(view==btn_ulangi){
+            startActivity(new Intent(SavingPlanAct3.this, SavingPlanAct2.class));
         }
     }
 }

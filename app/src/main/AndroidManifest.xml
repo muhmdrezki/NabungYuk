@@ -27,7 +27,10 @@
         <activity android:name=".MainMenu" />
         <activity android:name=".SavingPlanAct1" />
         <activity android:name=".SavingPlanFinalAct" />
-        <activity android:name=".SavingPlan_List"></activity>
+        <activity android:name=".SavingPlan_List" />
+        <activity android:name=".DompetActivity" />
+        <activity android:name=".Pemasukan_List" />
+        <activity android:name=".CatatPemasukanAct"></activity>
     </application>
 
 </manifest>

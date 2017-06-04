@@ -2,11 +2,13 @@ package com.example.rezki.savingplan;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +45,7 @@ public class SavingPlan_List extends AppCompatActivity {
         user = firebaseauth.getCurrentUser();
 
         QueryDatabase = databaseReference.orderByChild("uid").equalTo(user.getUid());
+        QueryDatabase.keepSynced(true);
 
         planlist = (RecyclerView) findViewById(R.id.planlist);
         planlist.setHasFixedSize(true);
@@ -72,6 +75,8 @@ public class SavingPlan_List extends AppCompatActivity {
                         viewHolder.setNama_plan(String.valueOf(model.getNama_plan()));
                         viewHolder.setTarget(String.valueOf(model.getTarget()));
                         viewHolder.setTabungan(String.valueOf(model.getTabungan()));
+                        viewHolder.setTgltarget(String.valueOf(model.getTgltarget()));
+                        viewHolder.setTglmulai(String.valueOf(model.getTglmulai()));
 
                         viewHolder.view.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -89,11 +94,42 @@ public class SavingPlan_List extends AppCompatActivity {
         };
     }
 
+
+    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    public void onBackPressed() {
+        final String TAG = this.getClass().getName();
+        Log.d(TAG, "click");
+
+        if (doubleBackToExitPressedOnce==true) {
+            //super.onBackPressed();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            System.exit(0);
+        }
+        doubleBackToExitPressedOnce=true;
+        Log.d(TAG, "twice "+ doubleBackToExitPressedOnce);
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+                Log.d(TAG, "twice "+ doubleBackToExitPressedOnce);
+            }
+        }, 3000);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
         firebaseauth.addAuthStateListener(authlistener);
     }
+
+
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
         View view;
@@ -106,6 +142,16 @@ public class SavingPlan_List extends AppCompatActivity {
         public void setNama_plan(String nama_plan) {
             TextView namaplan= (TextView) view.findViewById(R.id.tv_namaplanCV);
             namaplan.setText(nama_plan);
+        }
+
+        public void setTglmulai(String tglmulai) {
+            TextView tgl_mulai= (TextView) view.findViewById(R.id.tv_datemulai);
+            tgl_mulai.setText(tglmulai);
+        }
+
+        public void setTgltarget(String tgltarget) {
+            TextView tgl_selesai= (TextView) view.findViewById(R.id.tv_date_selesai);
+            tgl_selesai.setText(tgltarget);
         }
 
         public void setTabungan(String tabungan) {

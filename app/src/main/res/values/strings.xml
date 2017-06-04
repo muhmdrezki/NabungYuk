@@ -4,6 +4,7 @@
     <string-array name="spn_lamanabung">
         <item> Bulan  </item>
         <item> Minggu </item>
+        <item> Hari </item>
     </string-array>
     <string-array name="spn_pilihtarget">
         <item> Bulan </item>

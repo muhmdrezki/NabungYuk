@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.rezki.savingplan.CatatPemasukanAct">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PEMASUKAN"
+        android:textSize="19dp"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"/>
+    <TextView
+        android:id="@+id/tv_date_now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date : dd/MM/yyyy"
+        android:textSize="18dp"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nominal"
+        android:textSize="18dp"
+        android:inputType="number"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"/>
+    <EditText
+        android:id="@+id/et_nominal_pemasukan"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="Nominal"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kategori"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="18dp"
+        android:textColor="@color/colorPrimary"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+    <RadioGroup
+        android:id="@+id/radiogroup_kategori"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/radio_gaji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gaji"
+            android:layout_marginRight="5dp"/>
+        <RadioButton
+            android:id="@+id/radio_hadiah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="Hadiah"/>
+        <RadioButton
+            android:id="@+id/radio_LabaUsaha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="Laba Usaha"/>
+        <RadioButton
+            android:id="@+id/radio_dll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lain-Lain"/>
+        </RadioGroup>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Detail Pemasukan"
+        android:layout_marginTop="10dp"
+        android:textSize="18dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/colorPrimary"/>
+    <EditText
+        android:id="@+id/et_detail_pemasukan"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:hint="Details Here"
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:inputType="textMultiLine"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tanggal (Optional)"
+        android:textSize="18dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/colorPrimary"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textSize="18dp"
+            android:layout_marginTop="5dp"
+            />
+        <Button
+            android:id="@+id/btn_pilihtanggal"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Pilih Tanggal"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="46dp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_simpan_pemasukan"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Simpan"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        />
+
+</LinearLayout>
