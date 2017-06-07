@@ -75,7 +75,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                         String userid = auth.getCurrentUser().getUid();
                         DatabaseReference current_user  = databaseref.child(userid);
                         current_user.child("nama").setValue(nama);
-                        current_user.child("kategori_terakhir").setValue("-");
+                        current_user.child("kategori_pemasukan_terakhir").setValue("-");
                         current_user.child("tgl_pemasukan_terakhir").setValue("-");
                         current_user.child("uang").setValue("0");
                         progressdialog.dismiss();

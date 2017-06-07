@@ -91,7 +91,8 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
         btn_simpan = (Button) findViewById(R.id.btn_simpan_pemasukan);
         btn_simpan.setOnClickListener(this);
 
-        uangkuRef.addValueEventListener(new ValueEventListener() {
+        ambilTanggalHariIni();
+        db_RefNew.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String uang = (String) dataSnapshot.child("uang").getValue();
@@ -103,8 +104,6 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
 
             }
         });
-
-        ambilTanggalHariIni();
     }
 
     public void ambilTanggalHariIni(){
@@ -156,6 +155,9 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
 
     public void catatpemasukan(){
 
+        progressDialog.setMessage("Menyimpan Data..");
+        progressDialog.show();
+
         int SelectedId = radiogroup_kategori.getCheckedRadioButtonId();
         radioButton = (RadioButton) findViewById(SelectedId);
 
@@ -170,64 +172,60 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
             tanggal = date;
         }
         //Proses Upload
-                //Menampilkan Progress Bar
-                progressDialog.setMessage("Menyimpan Data..");
-                progressDialog.show();
+
         //Database Push
         final DatabaseReference newPost = db_Ref.push();
-        db_Ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                newPost.child("jumlah").setValue(nominal);
-                newPost.child("kategori").setValue(kategori);
-                newPost.child("detail").setValue(detail);
-                newPost.child("tgl_pemasukan").setValue(tanggal).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
+
+        newPost.child("jumlah").setValue(nominal);
+        newPost.child("kategori").setValue(kategori);
+        newPost.child("detail").setValue(detail);
+        newPost.child("tgl_pemasukan").setValue(tanggal);
+
+        Integer int_nominal = Integer.parseInt(nominal);
+        Integer int_uang_user = Integer.parseInt(uang_user);
+        Integer isi_dompet = int_nominal + int_uang_user;
+        final String dompet = isi_dompet.toString().trim();
+        uangkuRef.child("uang").setValue(dompet);
+        db_RefNew.child("tgl_pemasukan_terakhir").setValue(tanggal);
+        db_RefNew.child("kategori_pemasukan_terakhir").setValue(kategori);
+        progressDialog.dismiss();
+        Toast.makeText(CatatPemasukanAct.this, " Data Berhasil Disimpan ", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(CatatPemasukanAct.this,Pemasukan_List.class));
+
+        //db_RefNew.addValueEventListener(new ValueEventListener() {
+          //  @Override
+           // public void onDataChange(DataSnapshot dataSnapshot) {
+                //String uang = (String) dataSnapshot.child("uang").getValue();
+                //uang_user = uang;
+                //.addOnCompleteListener(new OnCompleteListener<Void>() {
+                  //  @Override
+                    //public void onComplete(@NonNull Task<Void> task) {
+                      //  if(task.isSuccessful()){
                             //Update Uang_User
-                            Integer int_nominal = Integer.parseInt(nominal);
-                            Integer int_uang_user = Integer.parseInt(uang_user);
-                            Integer isi_dompet = int_nominal + int_uang_user;
-                            final String dompet = isi_dompet.toString().trim();
-                            uangkuRef.child("uang").setValue(dompet);
+                            //Integer int_nominal = Integer.parseInt(nominal);
+                            //Integer int_uang_user = Integer.parseInt(uang_user);
+                            //Integer isi_dompet = int_nominal + int_uang_user;
+                            //final String dompet = isi_dompet.toString().trim();
+                            //uangkuRef.child("uang").setValue(dompet);
+                            //db_RefNew.child("tgl_pemasukan_terakhir").setValue(tanggal);
+                            //db_RefNew.child("kategori_terakhir").setValue(kategori);
+                            //progressDialog.dismiss();
+                            //Toast.makeText(CatatPemasukanAct.this, " Data Berhasil Disimpan ", Toast.LENGTH_SHORT).show();
+                            //startActivity(new Intent(CatatPemasukanAct.this,Pemasukan_List.class));
                         }
-                    }
-                });
+     //               }
+            //    });
 
 
 
-            }
+            //}
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+            //@Override
+            //public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-
-        //Database Update
-        db_RefNew.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                db_RefNew.child("tgl_pemasukan_terakhir").setValue(tanggal);
-                db_RefNew.child("kategori_terakhir").setValue(kategori).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            progressDialog.dismiss();
-                            Toast.makeText(CatatPemasukanAct.this, " Data Berhasil Disimpan ", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(CatatPemasukanAct.this,Pemasukan_List.class));
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
+            //}
+    //    });
+   // }
 
     @Override
     public void onClick(View view) {

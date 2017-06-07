@@ -72,7 +72,7 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
                 Uang_User = uang_user;
                 tv_uang.setText("Rp."+Uang_User);
 
-                String kategoriTerakhir = (String) dataSnapshot.child("kategori_terakhir").getValue();
+                String kategoriTerakhir = (String) dataSnapshot.child("kategori_pemasukan_terakhir").getValue();
                 String tanggal_pemasukan = (String) dataSnapshot.child("tgl_pemasukan_terakhir").getValue();
                 tanggal = tanggal_pemasukan;
                 tv_tgl_pemasukan_terakhir.setText(tanggal+" dari "+kategoriTerakhir);
