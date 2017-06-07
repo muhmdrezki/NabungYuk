@@ -37,10 +37,6 @@ public class Pemasukan_List extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authlistener;
     private FirebaseUser user;
     private DatabaseReference db_Ref, db_RefNew, getDb_time;
-    private Query db_time;
-    private String last_key, Key, category, jumlah_pemasukan, details, tanggal;
-
-    private ProgressDialog progressDialog;
     private String keychild;
 
     final String TAG = this.getClass().getName();
@@ -52,8 +48,6 @@ public class Pemasukan_List extends AppCompatActivity {
 
         firebaseauth = FirebaseAuth.getInstance();
 
-        progressDialog = new ProgressDialog(this);
-
         user = firebaseauth.getCurrentUser();
         String userId = user.getUid().toString().trim();
 
@@ -62,13 +56,6 @@ public class Pemasukan_List extends AppCompatActivity {
 
         db_RefNew = FirebaseDatabase.getInstance().getReference().child("Pemasukan_Terakhir");
         db_RefNew.keepSynced(true);
-
-        db_time = db_Ref.getRef().limitToLast(1);
-
-        keychild = db_time.getRef().getKey();
-
-        getDb_time = db_Ref.child(keychild);
-
 
         list_pemasukan = (RecyclerView) findViewById(R.id.pemasukan_list);
         list_pemasukan.setHasFixedSize(true);
@@ -93,8 +80,6 @@ public class Pemasukan_List extends AppCompatActivity {
                     protected void populateViewHolder(Pemasukan_List.PostViewHolder viewHolder, Pemasukan model, int position) {
 
                         final String post_key = getRef(position).getKey();
-                        Key = post_key.toString();
-
                         viewHolder.setKategori(String.valueOf(model.getKategori()));
                         viewHolder.setDetail(String.valueOf(model.getDetail()));
                         viewHolder.setJumlah(String.valueOf(model.getJumlah()));
@@ -191,9 +176,7 @@ public class Pemasukan_List extends AppCompatActivity {
             startActivity(new Intent(Pemasukan_List.this,CatatPemasukanAct.class));
 
         } else if ( item.getItemId() == R.id.My_Dompet){
-            Bundle b = new Bundle();
-            b.putString("lastest_key", last_key);
-            startActivity(new Intent(Pemasukan_List.this,DompetActivity.class).putExtras(b));
+            startActivity(new Intent(Pemasukan_List.this,DompetActivity.class));
 
         } else if ( item.getItemId() == R.id.main_menu){
             startActivity(new Intent(Pemasukan_List.this, MainMenu.class));

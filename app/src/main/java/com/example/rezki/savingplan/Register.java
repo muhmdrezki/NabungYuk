@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Register extends AppCompatActivity implements View.OnClickListener{
 
     private EditText etemail, etnama, etpassword;
+    private TextView tv_signinlink;
     private Button btn_daftar;
     private FirebaseAuth auth;
     private DatabaseReference databaseref;
@@ -44,7 +45,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         etemail = (EditText) findViewById(R.id.etemail);
         etnama = (EditText) findViewById(R.id.etnama);
         etpassword = (EditText) findViewById(R.id.etpassword);
-
+        tv_signinlink = (TextView) findViewById(R.id.tv_signinlink);
+        tv_signinlink.setOnClickListener(this);
         btn_daftar = (Button) findViewById(R.id.btn_daftar);
         btn_daftar.setOnClickListener(this);
 
@@ -77,6 +79,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
                         current_user.child("nama").setValue(nama);
                         current_user.child("kategori_pemasukan_terakhir").setValue("-");
                         current_user.child("tgl_pemasukan_terakhir").setValue("-");
+                        current_user.child("kategori_pengeluaran_terakhir").setValue("-");
+                        current_user.child("tgl_pengeluaran_terakhir").setValue("-");
                         current_user.child("uang").setValue("0");
                         progressdialog.dismiss();
                         Intent mainIntent = new Intent(Register.this, MainMenu.class);
@@ -122,6 +126,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View view) {
         if(view==btn_daftar){
             Register();
+        } else if(view==tv_signinlink){
+            startActivity(new Intent(Register.this, Login.class));
         }
     }
 }

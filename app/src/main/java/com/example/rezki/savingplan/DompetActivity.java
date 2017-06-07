@@ -29,8 +29,8 @@ import java.util.Date;
 
 public class DompetActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private Button btn_pemasukan;
-    private TextView tv_tanggal_hariini, tv_uang, tv_tgl_pemasukan_terakhir;
+    private Button btn_pemasukan, btn_pengeluaran;
+    private TextView tv_tanggal_hariini, tv_uang, tv_tgl_pemasukan_terakhir, tv_tgl_pengeluaran_terakhir;
 
     private FirebaseAuth auth;
     private FirebaseUser user;
@@ -58,11 +58,15 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
         db_Ref.keepSynced(true);
 
         tv_tgl_pemasukan_terakhir = (TextView) findViewById(R.id.tv_tgl_pemasukan_terakhir);
+        tv_tgl_pengeluaran_terakhir = (TextView) findViewById(R.id.tv_tgl_pengeluaran_terakhir);
         tv_uang = (TextView) findViewById(R.id.tv_uang);
         tv_tanggal_hariini = (TextView) findViewById(R.id.tv_tglhariini);
 
         btn_pemasukan = (Button) findViewById(R.id.btn_pemasukan);
         btn_pemasukan.setOnClickListener(this);
+
+        btn_pengeluaran = (Button) findViewById(R.id.btn_pengeluaran);
+        btn_pengeluaran.setOnClickListener(this);
 
 
         db_Ref.addValueEventListener(new ValueEventListener() {
@@ -71,11 +75,12 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
                 String uang_user = (String) dataSnapshot.child("uang").getValue();
                 Uang_User = uang_user;
                 tv_uang.setText("Rp."+Uang_User);
-
                 String kategoriTerakhir = (String) dataSnapshot.child("kategori_pemasukan_terakhir").getValue();
                 String tanggal_pemasukan = (String) dataSnapshot.child("tgl_pemasukan_terakhir").getValue();
-                tanggal = tanggal_pemasukan;
-                tv_tgl_pemasukan_terakhir.setText(tanggal+" dari "+kategoriTerakhir);
+                String kategoriTerakhir2 = (String) dataSnapshot.child("kategori_pengeluaran_terakhir").getValue();
+                String tanggal_pengeluaran = (String) dataSnapshot.child("tgl_pengeluaran_terakhir").getValue();
+                tv_tgl_pemasukan_terakhir.setText(tanggal_pemasukan+" dari "+kategoriTerakhir);
+                tv_tgl_pengeluaran_terakhir.setText(tanggal_pengeluaran+" untuk "+kategoriTerakhir2);
                 progressDialog.dismiss();
             }
 
@@ -138,6 +143,10 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         if(btn_pemasukan==view){
             Intent loginIntent = new Intent(DompetActivity.this, Pemasukan_List.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(loginIntent);
+        } else if(view==btn_pengeluaran){
+            Intent loginIntent = new Intent(DompetActivity.this, Pengeluaran_List.class);
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(loginIntent);
         }

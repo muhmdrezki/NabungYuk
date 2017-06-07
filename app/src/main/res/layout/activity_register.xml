@@ -53,7 +53,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_gravity="center"
-        android:background="#BFF9F9F9"
+        android:background="#BFE23535"
+        android:textColor="#f9f9f9"
         android:text="DAFTAR"
         android:fontFamily="sans-serif"
         />

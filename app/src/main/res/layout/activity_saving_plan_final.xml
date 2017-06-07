@@ -88,7 +88,7 @@
             />
     </LinearLayout>
 <LinearLayout
-    android:id="@id/linearLayout"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -117,21 +117,20 @@
 </LinearLayout>
 
     <LinearLayout
-        android:id="@id/linearLayout2"
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:layout_below="@id/linearLayout">
+        android:layout_below="@+id/linearLayout">
 
         <Spinner
             android:id="@+id/spn_convertwaktu"
             android:layout_width="110dp"
             android:layout_height="30dp"
             android:entries="@array/spn_lamanabung"
-            android:backgroundTint="#e23535"
-            android:background="#f9f9f9">
+            >
         </Spinner>
         <Button
             android:id="@+id/btn_apply"
@@ -145,7 +144,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_below="@id/linearLayout2"
+        android:layout_below="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

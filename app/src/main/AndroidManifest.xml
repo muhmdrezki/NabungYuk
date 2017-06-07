@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreen">
+        <activity
+            android:name=".SplashScreen"
+            android:theme="@style/SplashTheme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,13 +26,16 @@
         <activity android:name=".Register" />
         <activity android:name=".Login" />
         <activity android:name=".SavingPlanAct2" />
-        <activity android:name=".MainMenu" />
+        <activity android:name=".MainMenu" android:theme="@style/SplashTheme.FullScreen" />
         <activity android:name=".SavingPlanAct1" />
         <activity android:name=".SavingPlanFinalAct" />
         <activity android:name=".SavingPlan_List" />
         <activity android:name=".DompetActivity" />
         <activity android:name=".Pemasukan_List" />
-        <activity android:name=".CatatPemasukanAct"></activity>
+        <activity android:name=".CatatPengeluaranAct" />
+        <activity android:name=".Pengeluaran_List" />
+        <activity android:name=".CatatPemasukanAct" />
+        <activity android:name=".FirstPage" android:theme="@style/SplashTheme.FullScreen"></activity>
     </application>
 
 </manifest>

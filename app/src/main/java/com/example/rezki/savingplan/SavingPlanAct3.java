@@ -296,6 +296,7 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
                                     if(task.isSuccessful()){
                                         progressdialog.dismiss();
                                         Toast.makeText(SavingPlanAct3.this, " Data Berhasil Disimpan ", Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(SavingPlanAct3.this, SavingPlan_List.class));
                                     }
                                 }
                             });

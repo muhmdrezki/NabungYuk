@@ -51,7 +51,7 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
 
     private ProgressDialog progressDialog;
 
-    private String UserID, tanggal, uang_user;
+    private String UserID, tanggal, uang_user, nama;
 
     private String Tanggal_HariIni;
 
@@ -97,6 +97,8 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String uang = (String) dataSnapshot.child("uang").getValue();
                 uang_user = uang;
+                String nama_user = (String) dataSnapshot.child("nama").getValue();
+                nama = nama_user;
             }
 
             @Override
@@ -153,7 +155,7 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
         }, 3000);
     }
 
-    public void catatpemasukan(){
+    public void catatpemasukan() {
 
         progressDialog.setMessage("Menyimpan Data..");
         progressDialog.show();
@@ -164,7 +166,7 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
         final String kategori = radioButton.getText().toString().trim();
         final String nominal = et_nominal.getText().toString().trim();
         final String detail = et_detail_pemasukan.getText().toString().trim();
-        if(tv_date.getText().equals("Date")) {
+        if (tv_date.getText().equals("Date")) {
             final String date = tv_date_now.getText().toString().trim();
             tanggal = date;
         } else {
@@ -190,42 +192,8 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
         db_RefNew.child("kategori_pemasukan_terakhir").setValue(kategori);
         progressDialog.dismiss();
         Toast.makeText(CatatPemasukanAct.this, " Data Berhasil Disimpan ", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(CatatPemasukanAct.this,Pemasukan_List.class));
-
-        //db_RefNew.addValueEventListener(new ValueEventListener() {
-          //  @Override
-           // public void onDataChange(DataSnapshot dataSnapshot) {
-                //String uang = (String) dataSnapshot.child("uang").getValue();
-                //uang_user = uang;
-                //.addOnCompleteListener(new OnCompleteListener<Void>() {
-                  //  @Override
-                    //public void onComplete(@NonNull Task<Void> task) {
-                      //  if(task.isSuccessful()){
-                            //Update Uang_User
-                            //Integer int_nominal = Integer.parseInt(nominal);
-                            //Integer int_uang_user = Integer.parseInt(uang_user);
-                            //Integer isi_dompet = int_nominal + int_uang_user;
-                            //final String dompet = isi_dompet.toString().trim();
-                            //uangkuRef.child("uang").setValue(dompet);
-                            //db_RefNew.child("tgl_pemasukan_terakhir").setValue(tanggal);
-                            //db_RefNew.child("kategori_terakhir").setValue(kategori);
-                            //progressDialog.dismiss();
-                            //Toast.makeText(CatatPemasukanAct.this, " Data Berhasil Disimpan ", Toast.LENGTH_SHORT).show();
-                            //startActivity(new Intent(CatatPemasukanAct.this,Pemasukan_List.class));
-                        }
-     //               }
-            //    });
-
-
-
-            //}
-
-            //@Override
-            //public void onCancelled(DatabaseError databaseError) {
-
-            //}
-    //    });
-   // }
+        startActivity(new Intent(CatatPemasukanAct.this, Pemasukan_List.class));
+    }
 
     @Override
     public void onClick(View view) {
@@ -247,10 +215,9 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if ( item.getItemId() == R.id.logout){
+        if ( item.getItemId() == R.id.logout) {
 
             logout();
-
         } else if ( item.getItemId() == R.id.main_menu){
             startActivity(new Intent(CatatPemasukanAct.this, MainMenu.class));
         } else if ( item.getItemId() == R.id.pemasukan_list){

@@ -1,6 +1,7 @@
 package com.example.rezki.savingplan;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,12 +19,18 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener{
 
-    private Button btn_logout;
+
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authlistener;
 
     private TextView tv_savingplan;
     private TextView tv_dompet;
+    private TextView tv_logout;
+
+    private ImageView iv_savingplan;
+    private ImageView iv_dompet;
+    private ImageView iv_logout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,18 +44,33 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() == null) {
 
-                    Intent loginIntent = new Intent(MainMenu.this, Login.class);
+                    Intent loginIntent = new Intent(MainMenu.this, FirstPage.class);
                     loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginIntent);
                 }
             }
         };
 
-        tv_dompet = (TextView) findViewById(R.id.tv_PEMASUKAN);
+        tv_dompet = (TextView) findViewById(R.id.tv_dompet);
         tv_dompet.setOnClickListener(this);
 
         tv_savingplan = (TextView) findViewById(R.id.tv_savingplan);
         tv_savingplan.setOnClickListener(this);
+
+        tv_logout = (TextView) findViewById(R.id.tv_Logout);
+        tv_logout.setOnClickListener(this);
+
+        iv_dompet = (ImageView) findViewById(R.id.iv_dompet);
+        iv_dompet.setOnClickListener(this);
+
+        iv_savingplan = (ImageView) findViewById(R.id.iv_savingplan);
+        iv_savingplan.setOnClickListener(this);
+
+        iv_logout = (ImageView) findViewById(R.id.iv_logout);
+        iv_logout.setOnClickListener(this);
+
+
+
     }
 
     boolean doubleBackToExitPressedOnce = false;
@@ -86,15 +109,32 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-       if(view==tv_savingplan){
+        if (view == tv_savingplan) {
             Intent loginIntent = new Intent(MainMenu.this, SavingPlan_List.class);
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(loginIntent);
-        } else if (view==tv_dompet){
-           Intent loginIntent = new Intent(MainMenu.this, DompetActivity.class);
-           loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-           startActivity(loginIntent);
-       }
+        }
+        if (view == tv_dompet) {
+            Intent loginIntent = new Intent(MainMenu.this, DompetActivity.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(loginIntent);
+        }
+        if (view == tv_logout) {
+            logout();
+        }
+        if (view == iv_logout) {
+            logout();
+        }
+        if (view == iv_dompet) {
+            Intent loginIntent = new Intent(MainMenu.this, DompetActivity.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(loginIntent);
+        }
+        if (view == iv_savingplan) {
+            Intent loginIntent = new Intent(MainMenu.this, SavingPlan_List.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(loginIntent);
+        }
     }
 
     @Override

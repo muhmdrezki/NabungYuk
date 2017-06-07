@@ -1,66 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/mainmenu"
     android:orientation="vertical"
-    tools:context="com.example.rezki.savingplan.MainMenu">
-<LinearLayout
-    android:layout_width="322dp"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/linearLayout2"
-    android:layout_marginTop="105dp"
-    >
+    tools:context="com.example.rezki.savingplan.MainMenu"
+    android:weightSum="1">
+
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dompet"
+        android:textSize="18dp"
+        android:textColor="#f9f9f9"
+        android:id="@+id/tv_dompet"
+        android:layout_alignBaseline="@+id/tv_savingplan"
+        android:layout_alignBottom="@+id/tv_savingplan"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginStart="80dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Saving Plan"
+        android:textSize="18dp"
+        android:textColor="#f9f9f9"
+        android:layout_marginRight="58dp"
+        android:layout_marginEnd="58dp"
         android:id="@+id/tv_savingplan"
-        android:layout_width="322dp"
-        android:layout_height="107dp"
-        android:layout_marginLeft="15dp"
-        android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:text="SAVING PLAN"
-        android:textSize="20dp" />
-</LinearLayout>
-    <LinearLayout
-        android:layout_width="250dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/linearLayout"
-        android:layout_marginTop="30dp"
-        >
+        android:text="Settings"
+        android:textSize="18dp"
+        android:textColor="#f9f9f9"
+        android:id="@+id/tv_Settings"
+        android:layout_marginTop="98dp"
+        android:layout_below="@+id/tv_dompet"
+        android:layout_alignRight="@+id/tv_dompet"
+        android:layout_alignEnd="@+id/tv_dompet" />
 
-        <TextView
-            android:id="@+id/tv_pengeluaran"
-            android:layout_width="324dp"
-            android:layout_height="95dp"
-            android:gravity="center"
-            android:layout_gravity="center_vertical"
-            android:text="PENGELUARAN"
-            android:layout_marginLeft="15dp"
-            android:textSize="20dp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="250dp"
+    <TextView
+        android:id="@+id/tv_Logout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/linearLayout1"
-        android:layout_marginTop="30dp"
-        android:layout_above="@+id/linearLayout"
-        android:layout_alignLeft="@+id/linearLayout"
-        android:layout_alignStart="@+id/linearLayout">
-        <TextView
-            android:id="@+id/tv_PEMASUKAN"
-            android:layout_width="324dp"
-            android:layout_height="95dp"
-            android:gravity="center"
-            android:layout_marginLeft="15dp"
-            android:text="PEMASUKAN"
-            android:textSize="20dp"
-            android:layout_gravity="center_vertical"
-            />
-    </LinearLayout>
+        android:layout_alignBaseline="@+id/tv_Settings"
+        android:layout_alignBottom="@+id/tv_Settings"
+        android:layout_alignEnd="@+id/tv_savingplan"
+        android:layout_alignRight="@+id/tv_savingplan"
+        android:text="Logout"
+        android:textAlignment="center"
+        android:textColor="#f9f9f9"
+        android:textSize="18dp"
+        android:layout_alignLeft="@+id/tv_savingplan"
+        android:layout_alignStart="@+id/tv_savingplan" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/iv_dompet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_dompet"
+        android:layout_alignLeft="@+id/tv_dompet"
+        android:layout_alignStart="@+id/tv_dompet"
+        app:srcCompat="@drawable/dompetfix" />
+
+    <ImageView
+        android:id="@+id/iv_savingplan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/iv_logout"
+        android:layout_alignStart="@+id/iv_logout"
+        android:layout_alignTop="@+id/iv_dompet"
+        app:srcCompat="@drawable/planfix" />
+
+    <ImageView
+        android:id="@+id/iv_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_Logout"
+        android:layout_alignEnd="@+id/tv_Settings"
+        android:layout_alignRight="@+id/tv_Settings"
+        app:srcCompat="@drawable/settingsfix" />
+
+    <ImageView
+        android:id="@+id/iv_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/logoutfix"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_above="@+id/tv_Logout"
+        android:layout_alignLeft="@+id/tv_Logout"
+        android:layout_alignStart="@+id/tv_Logout" />
+
+</RelativeLayout>
