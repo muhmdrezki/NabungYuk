@@ -2,9 +2,6 @@ package com.example.rezki.savingplan;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -32,6 +29,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickListener{
@@ -140,7 +139,7 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
         }, 3000);
     }
     public void ambilTanggalSkrng(){
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
             tgl_sekarang = dateFormat.format(date);
 
@@ -149,7 +148,7 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
     public void hitungHari() {
         int mYear, mMonth, mDay;
         final Calendar c = Calendar.getInstance();
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar tanggaltarget = Calendar.getInstance();
         Calendar now = Calendar.getInstance();
         Date date2= null;

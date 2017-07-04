@@ -2,9 +2,6 @@ package com.example.rezki.savingplan;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DompetActivity extends AppCompatActivity implements View.OnClickListener{
@@ -133,7 +132,7 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void ambilTanggalHariIni(){
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         String Tanggal_HariIni = dateFormat.format(date);
         tv_tanggal_hariini.setText(Tanggal_HariIni);

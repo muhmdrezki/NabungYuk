@@ -4,8 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
@@ -31,6 +29,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -155,7 +155,7 @@ public class CatatPengeluaranAct extends AppCompatActivity implements View.OnCli
 
         //fungsi ambil tanggal hari ini
     public void ambilTanggalHariIni(){
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         Tanggal_HariIni = dateFormat.format(date);
         tv_date_now2.setText(Tanggal_HariIni);

@@ -4,8 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +33,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class CatatPemasukanAct extends AppCompatActivity implements View.OnClickListener{
@@ -109,7 +109,7 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
     }
 
     public void ambilTanggalHariIni(){
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();
             Tanggal_HariIni = dateFormat.format(date);
             tv_date_now.setText(Tanggal_HariIni);

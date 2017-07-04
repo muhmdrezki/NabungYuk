@@ -3,7 +3,7 @@ package com.example.rezki.savingplan;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.icu.util.Calendar;
+//import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Calendar;
 
 public class SavingPlanAct2 extends AppCompatActivity implements View.OnClickListener{
 
