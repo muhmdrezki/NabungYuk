@@ -46,6 +46,7 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dompet);
 
+        //Deklarasi Variable dan Objek
         calendar = Calendar.getInstance();
         progressDialog = new ProgressDialog(this);
         auth = FirebaseAuth.getInstance();
@@ -68,6 +69,8 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
         btn_pengeluaran.setOnClickListener(this);
 
 
+        //Mengambil data uang user
+        //Mengambil Waktu Pengeluaran dan Pemasukan Terakhir User
         db_Ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -92,6 +95,7 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    //Code untuk double back klik exit
     boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
@@ -120,6 +124,8 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
         }, 3000);
     }
 
+    //Code untuk memnuculkan progress dialog pada saat masuk dompet activity
+    //Progress dialog jadi gabisa di cancel sampai selesai download
     @Override
     protected void onStart() {
         super.onStart();
@@ -131,6 +137,7 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    //Code untuk mengambil dan menampilkan tanggal hari ini
     public void ambilTanggalHariIni(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
@@ -138,6 +145,7 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
         tv_tanggal_hariini.setText(Tanggal_HariIni);
     }
 
+    //Code supaya link dan tombol aktif
     @Override
     public void onClick(View view) {
         if(btn_pemasukan==view){
@@ -151,6 +159,7 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    //menampilkan menu dari menu.xml/menu layout
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -172,6 +181,7 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
         return super.onOptionsItemSelected(item);
     }
 
+    //fungsi LOGOUT FIREBASE
     private void logout() {
 
         FirebaseAuth firebaseauth;

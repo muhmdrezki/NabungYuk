@@ -20,6 +20,7 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_page);
 
+        //Mendeklarasikan Variable / Objek
         btn_daftar = (Button) findViewById(R.id.btn_daftar);
         btn_daftar.setOnClickListener(this);
 
@@ -27,6 +28,7 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
         tv_masuk.setOnClickListener(this);
     }
 
+    //Code supaya doubleback klik langsung exit
     boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
@@ -55,6 +57,7 @@ public class FirstPage extends AppCompatActivity implements View.OnClickListener
         }, 3000);
     }
 
+    //Code supaya tombol / link bisa di klik
     @Override
     public void onClick(View view) {
         if(view==btn_daftar){

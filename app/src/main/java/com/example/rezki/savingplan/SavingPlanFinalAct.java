@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClickListener{
 
     final String TAG = this.getClass().getName();
@@ -40,12 +47,12 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
     private DatabaseReference databaseReference, tabunganRef, user_db;
     private EditText etnabung;
     private Button btn_tabung, btn_apply;
-    private TextView tv_namaplanfinal, tv_namatujuanfinal, tv_targetnabung, tv_tabungan, tv_dateAkhir;
+    private TextView tv_namaplanfinal, tv_namatujuanfinal, tv_targetnabung, tv_tabungan, tv_dateAkhir, tv_status, tv_failed;
     private TextView tv_nabungmgg;
     private Spinner spn_convert;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-    private String tabunganbaru1, tbg, tampung;
+    private String tabunganbaru1, tbg, tampung, target, status_plan, Tanggal_HariIni, tgl;
     private ProgressDialog progressdialog;
 
     @Override
@@ -67,15 +74,23 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
         tv_tabungan = (TextView) findViewById(R.id.tv_tabungan);
         tv_dateAkhir = (TextView) findViewById(R.id.tv_dateAkhir);
         tv_nabungmgg = (TextView) findViewById(R.id.tv_nabungmgg);
+        tv_status = (TextView) findViewById(R.id.TVstatus_plan);
+        tv_failed = (TextView) findViewById(R.id.TVstatus_failed);
+
 
         etnabung = (EditText) findViewById(R.id.etnabung);
         spn_convert = (Spinner) findViewById(R.id.spn_convertwaktu);
+
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.spn_lamanabung, R.layout.spinner_item);
+        spn_convert.setAdapter(adapter);
 
         btn_apply = (Button) findViewById(R.id.btn_apply);
         btn_apply.setOnClickListener(this);
 
         btn_tabung = (Button) findViewById(R.id.btn_tabung);
         btn_tabung.setOnClickListener(this);
+
+        ambilTanggalHariIni();
 
         databaseReference.child(mPostkey).addValueEventListener(new ValueEventListener() {
             @Override
@@ -86,15 +101,41 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
                 String tabungan = (String) dataSnapshot.child("tabungan").getValue();
                 String tgl_target = (String) dataSnapshot.child("tgltarget").getValue();
                 String nabungmgg = (String) dataSnapshot.child("nabungperbulan").getValue();
+                status_plan = (String) dataSnapshot.child("status").getValue();
 
                 tv_namaplanfinal.setText(namaplan);
                 tv_namatujuanfinal.setText(namatujuan);
-                tv_targetnabung.setText("Rp. "+targetnabung);
-                tv_tabungan.setText("Rp. "+tabungan);
-                tv_nabungmgg.setText("Rp. " + nabungmgg+"/ Minggu");
+                tv_targetnabung.setText("Rp. " + targetnabung);
+                tv_tabungan.setText("Rp. " + tabungan);
+                tv_nabungmgg.setText("Rp. " + nabungmgg + "/ Minggu");
                 tbg = tabungan;
                 tv_dateAkhir.setText(tgl_target);
                 tampung = nabungmgg;
+                target = targetnabung;
+                tgl = tgl_target;
+
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                Date deadline = null;
+                Date nowdate = null;
+                try {
+                    deadline = df.parse(tgl);
+                    nowdate = df.parse(Tanggal_HariIni);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Integer target_uang = Integer.parseInt(target);
+                Integer uang_tabungan = Integer.parseInt(tbg);
+
+                if (uang_tabungan >= target_uang) {
+                    btn_tabung.setVisibility(View.INVISIBLE);
+                    etnabung.setVisibility(View.INVISIBLE);
+                    tv_status.setVisibility(View.VISIBLE);
+                } else if ((uang_tabungan < target_uang) && (nowdate.compareTo(deadline))>=0) {
+                    btn_tabung.setVisibility(View.INVISIBLE);
+                    etnabung.setVisibility(View.INVISIBLE);
+                    tv_failed.setVisibility(View.VISIBLE);
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -156,10 +197,19 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
             }
         }, 3000);
     }
+
+    //fungsi ambil tanggal hari ini
+    public void ambilTanggalHariIni(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        Tanggal_HariIni = dateFormat.format(date);
+        Toast.makeText(this, Tanggal_HariIni, Toast.LENGTH_SHORT).show();
+    }
+
     public void tabung() {
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(final DialogInterface dialog, int which) {
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
                             //Yes button clicked
@@ -172,22 +222,41 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
                                 final String tabungan_baru = tabunganbaru.toString().trim();
                                 tabunganbaru1 = tabungan_baru;
                                 databaseReference.child(mPostkey).child("tabungan").setValue(tabunganbaru1);
-                            }
+                                etnabung.setText("0");
+
+                                Integer target_uang = Integer.parseInt(target);
+                                Integer uang_tabungan = Integer.parseInt(tabunganbaru1);
+
+                                if (uang_tabungan >= target_uang) {
+
+                                    AlertDialog.Builder alert = new AlertDialog.Builder(SavingPlanFinalAct.this);
+                                    alert.setTitle("Congratulations ! ");
+                                    alert.setMessage("Anda telah mencapai target anda !");
+                                    alert.setPositiveButton("OK", null);
+                                    alert.show();
+
+                                    databaseReference.child(mPostkey).child("status").setValue("Completed");
+                                    btn_tabung.setVisibility(View.INVISIBLE);
+                                    etnabung.setVisibility(View.INVISIBLE);
+                                }
+
+                                }
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:
                             //No button clicked
                             dialog.dismiss();
                             break;
-
                     }
                 }
             };
+
+            Toast.makeText(this, "Tabungan Berhasil Ditambahkan" , Toast.LENGTH_SHORT).show();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Uang Sejumlah Rp. "+etnabung.getText().toString().trim()+" akan ditambahkan ke tabungan anda").setPositiveButton("Ya", dialogClickListener)
                     .setNegativeButton("Tidak", dialogClickListener).show();
+        }
 
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

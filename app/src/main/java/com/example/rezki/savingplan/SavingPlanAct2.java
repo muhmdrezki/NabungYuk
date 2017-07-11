@@ -147,23 +147,14 @@ public class SavingPlanAct2 extends AppCompatActivity implements View.OnClickLis
         String target = targetnabung.getText().toString().trim();
         String targetwkt = targetwaktu.getText().toString().trim();
 
-        if(TextUtils.isEmpty(pengeluaran)) {
-            Toast.makeText(this, "Jumlah Pengeluaran Harus Diisi",Toast.LENGTH_LONG).show();
-        } else if (TextUtils.isEmpty(pemasukkan)){
+        if(TextUtils.isEmpty(pemasukkan)) {
             Toast.makeText(this, "Jumlah Pemasukkan Harus Diisi",Toast.LENGTH_LONG).show();
+        } else if (TextUtils.isEmpty(pengeluaran)){
+            Toast.makeText(this, "Jumlah Pengeluaran Harus Diisi",Toast.LENGTH_LONG).show();
         } else if (TextUtils.isEmpty(target)) {
             Toast.makeText(this, "Target Menabung Harus Diisi",Toast.LENGTH_LONG).show();
-        } else if (TextUtils.isEmpty(targetwkt)) {
-                Intent pindah = new Intent(SavingPlanAct2.this, SavingPlanAct3.class);
-                Bundle b = new Bundle();
-                b.putString("pengeluaran", pengeluaran);
-                b.putString("pemasukkan", pemasukkan);
-                b.putString("target", target);
-                b.putString("nama_plan", nama_plan1);
-                b.putString("tujuan_nabung", tujuan_nabung1);
-
-                pindah.putExtras(b);
-                startActivity(pindah);
+        } else if (targetwkt.equals("Target")) {
+            Toast.makeText(this, "Tentukan Tanggal Deadline Menabung Anda",Toast.LENGTH_LONG).show();
         } else {
                 Intent pindah = new Intent(SavingPlanAct2.this, SavingPlanAct3.class);
                 Bundle b = new Bundle();
@@ -173,7 +164,6 @@ public class SavingPlanAct2 extends AppCompatActivity implements View.OnClickLis
                 b.putString("target_tanggal",targetwkt);
                 b.putString("nama_plan", nama_plan1);
                 b.putString("tujuan_nabung", tujuan_nabung1);
-
                 pindah.putExtras(b);
                 startActivity(pindah);
             }

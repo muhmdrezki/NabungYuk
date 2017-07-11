@@ -62,6 +62,7 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catat_pemasukan);
 
+        //Pendeklarasian Variable / Objek
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
@@ -92,6 +93,8 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
         btn_simpan.setOnClickListener(this);
 
         ambilTanggalHariIni();
+
+        //Mengambil data dari FIREBASE
         db_RefNew.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -108,6 +111,7 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
         });
     }
 
+    //Code untuk mengambil tanggal hari ini
     public void ambilTanggalHariIni(){
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();
@@ -115,6 +119,7 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
             tv_date_now.setText(Tanggal_HariIni);
     }
 
+    //code untuk pilih tanggal
     public void ambilTanggal(){
         new DatePickerDialog(CatatPemasukanAct.this, listener, calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -127,6 +132,7 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
         }
     };
 
+    //code untuk double back klik exit
     boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
@@ -155,46 +161,62 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
         }, 3000);
     }
 
+    //code untuk mencatat pemasukkan // menyimpan pemasukan ke FIREBASE
     public void catatpemasukan() {
-
-        progressDialog.setMessage("Menyimpan Data..");
-        progressDialog.show();
 
         int SelectedId = radiogroup_kategori.getCheckedRadioButtonId();
         radioButton = (RadioButton) findViewById(SelectedId);
-
-        final String kategori = radioButton.getText().toString().trim();
-        final String nominal = et_nominal.getText().toString().trim();
-        final String detail = et_detail_pemasukan.getText().toString().trim();
-        if (tv_date.getText().equals("Date")) {
-            final String date = tv_date_now.getText().toString().trim();
-            tanggal = date;
+        if (radiogroup_kategori.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this, "Pilih kategori pengeluaran", Toast.LENGTH_SHORT).show();
         } else {
-            final String date = tv_date.getText().toString().trim();
-            tanggal = date;
+            //Menampung data dari TextField ke variable tampung
+            final String kategori = radioButton.getText().toString().trim();
+            final String nominal = et_nominal.getText().toString().trim();
+            final String detail = et_detail_pemasukan.getText().toString().trim();
+
+            if (TextUtils.isEmpty(nominal)) {
+                Toast.makeText(this, "Harap isi nominal pemasukan", Toast.LENGTH_LONG).show();
+            } else if (TextUtils.isEmpty(detail)) {
+                Toast.makeText(this, "Harap isi detail pemasukan", Toast.LENGTH_SHORT).show();
+            } else {
+
+                if (tv_date.getText().equals("Date")) {
+                    final String date = tv_date_now.getText().toString().trim();
+                    tanggal = date;
+                } else {
+                    final String date = tv_date.getText().toString().trim();
+                    tanggal = date;
+                }
+
+                //Menampilkan Progress Dialog
+                progressDialog.setMessage("Menyimpan Data..");
+                progressDialog.show();
+                //Proses Upload
+                //Database Push
+                final DatabaseReference newPost = db_Ref.push();
+                newPost.child("jumlah").setValue(nominal);
+                newPost.child("kategori").setValue(kategori);
+                newPost.child("detail").setValue(detail);
+                newPost.child("tgl_pemasukan").setValue(tanggal);
+
+                //menghitung berapa uang yang ada di dompet
+                Integer int_nominal = Integer.parseInt(nominal);
+                Integer int_uang_user = Integer.parseInt(uang_user);
+                Integer isi_dompet = int_nominal + int_uang_user;
+                final String dompet = isi_dompet.toString().trim();
+
+                //menyimpan berapa jumlah uang setelah pemasukan // dan menyimpan tanggal dan kategori pemasukan terakhir
+                uangkuRef.child("uang").setValue(dompet);
+                db_RefNew.child("tgl_pemasukan_terakhir").setValue(tanggal);
+                db_RefNew.child("kategori_pemasukan_terakhir").setValue(kategori);
+                progressDialog.dismiss();
+                Toast.makeText(CatatPemasukanAct.this, " Data Berhasil Disimpan ", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(CatatPemasukanAct.this, Pemasukan_List.class));
+            }
         }
-        //Proses Upload
-
-        //Database Push
-        final DatabaseReference newPost = db_Ref.push();
-
-        newPost.child("jumlah").setValue(nominal);
-        newPost.child("kategori").setValue(kategori);
-        newPost.child("detail").setValue(detail);
-        newPost.child("tgl_pemasukan").setValue(tanggal);
-
-        Integer int_nominal = Integer.parseInt(nominal);
-        Integer int_uang_user = Integer.parseInt(uang_user);
-        Integer isi_dompet = int_nominal + int_uang_user;
-        final String dompet = isi_dompet.toString().trim();
-        uangkuRef.child("uang").setValue(dompet);
-        db_RefNew.child("tgl_pemasukan_terakhir").setValue(tanggal);
-        db_RefNew.child("kategori_pemasukan_terakhir").setValue(kategori);
-        progressDialog.dismiss();
-        Toast.makeText(CatatPemasukanAct.this, " Data Berhasil Disimpan ", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(CatatPemasukanAct.this, Pemasukan_List.class));
     }
 
+    //mengaktifkan link dan tombol supaya bisa di klik
     @Override
     public void onClick(View view) {
         if(btn_simpan==view){
@@ -204,6 +226,7 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
         }
     }
 
+    //menampilkan menu.xmol // menu layout
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 

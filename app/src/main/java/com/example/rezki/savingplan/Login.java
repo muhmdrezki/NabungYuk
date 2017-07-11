@@ -38,6 +38,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //Inisialisasi Progress Dialog
         progressdialog = new ProgressDialog(this);
 
         //Firebase Database Variable
@@ -57,6 +58,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
     private void checklogin() {
 
+        //Tampung nilai dari TextField ke variable sementara
         String email = etemail.getText().toString().trim();
         String password = etpassword.getText().toString().trim();
 
@@ -85,6 +87,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
+    //Code untuk Double back klik langsung exit
     boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
@@ -113,6 +116,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         }, 3000);
     }
 
+    //Code untuk mengktifkan link dan tombol
     @Override
     public void onClick(View view) {
         if(view==btn_login){

@@ -151,23 +151,25 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Calendar tanggaltarget = Calendar.getInstance();
         Calendar now = Calendar.getInstance();
-        Date date2= null;
-        try {
-            date2 = format.parse(target_tanggal);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if(target_tanggal!=null && !target_tanggal.isEmpty()) {
+            Date date2 = null;
+            try {
+                date2 = format.parse(target_tanggal);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            tanggaltarget.setTime(date2);
         }
-        tanggaltarget.setTime(date2);
+        if(tanggal_skrng !=null && !tanggal_skrng.isEmpty()) {
 
-
-        Date date1= null;
-        try {
-            date1 = format.parse(tanggal_skrng);
-        } catch (ParseException e) {
-            e.printStackTrace();
+            Date date1 = null;
+            try {
+                date1 = format.parse(tanggal_skrng);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            now.setTime(date1);
         }
-        now.setTime(date1);
-
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
@@ -289,6 +291,7 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
                             newPost.child("tglmulai").setValue(tgl_skrng);
                             newPost.child("tgltarget").setValue(tgl_target);
                             newPost.child("sisa").setValue(sisa);
+                            newPost.child("status").setValue("On Progress");
                             newPost.child("nama").setValue(dataSnapshot.child("nama").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -347,7 +350,8 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
         } else if(view==btn_next_act3){
             SavePlan();
         } else if(view==btn_ulangi){
-            startActivity(new Intent(SavingPlanAct3.this, SavingPlanAct2.class));
+            finish();
+            startActivity(new Intent(SavingPlanAct3.this, SavingPlanAct1.class));
         }
     }
 }

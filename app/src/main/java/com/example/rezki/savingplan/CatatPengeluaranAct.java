@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -113,46 +114,54 @@ public class CatatPengeluaranAct extends AppCompatActivity implements View.OnCli
     //fungsi penyimpanan data
     public void catatpengeluaran() {
 
-        progressDialog.setMessage("Menyimpan Data..");
-        progressDialog.show();
         //menampung nilai dari text field ke variable sementara
         int SelectedId = radiogroup_kategori.getCheckedRadioButtonId();
         radioButton = (RadioButton) findViewById(SelectedId);
-
-        final String kategori = radioButton.getText().toString().trim();
-        final String nominal = et_nominal_pengeluaran.getText().toString().trim();
-        final String detail = et_detail_pengeluaran.getText().toString().trim();
-
-        //menentukan mana tanggal yang diambil
-        //jika tanggal tidak dipilih maka otomatis tanggal hari ini yang akan diambil
-        if (tv_date2.getText().equals("Date")) {
-            final String date = tv_date_now2.getText().toString().trim();
-            tanggal = date;
+        if (radiogroup_kategori.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this, "Pilih kategori pengeluaran", Toast.LENGTH_SHORT).show();
         } else {
-            final String date = tv_date2.getText().toString().trim();
-            tanggal = date;
+            final String kategori = radioButton.getText().toString().trim();
+            final String nominal = et_nominal_pengeluaran.getText().toString().trim();
+            final String detail = et_detail_pengeluaran.getText().toString().trim();
+
+            //cek apakah form sudah terisi atau belum
+            if (TextUtils.isEmpty(nominal)) {
+                Toast.makeText(this, "Harap isi nominal pengeluaran", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(detail)) {
+                Toast.makeText(this, "Harap isi detail pengeluaran", Toast.LENGTH_SHORT).show();
+            } else {
+                //menentukan mana tanggal yang diambil
+                //jika tanggal tidak dipilih maka otomatis tanggal hari ini yang akan diambil
+                if (tv_date2.getText().equals("Date")) {
+                    final String date = tv_date_now2.getText().toString().trim();
+                    tanggal = date;
+                } else {
+                    final String date = tv_date2.getText().toString().trim();
+                    tanggal = date;
+                }
+                progressDialog.setMessage("Menyimpan Data..");
+                progressDialog.show();
+                //Proses Upload
+                final DatabaseReference newPost = db_Ref.push();
+                newPost.child("jumlah").setValue(nominal);
+                newPost.child("kategori").setValue(kategori);
+                newPost.child("detail").setValue(detail);
+                newPost.child("tgl_pengeluaran").setValue(tanggal);
+
+                //proses perhitungan uang user
+                Integer int_nominal = Integer.parseInt(nominal);
+                Integer int_uang_user = Integer.parseInt(uang_user);
+                Integer isi_dompet = int_uang_user - int_nominal;
+                final String dompet = isi_dompet.toString().trim();
+                db_RefNew.child("uang").setValue(dompet);
+                db_RefNew.child("tgl_pengeluaran_terakhir").setValue(tanggal);
+                db_RefNew.child("kategori_pengeluaran_terakhir").setValue(kategori);
+                progressDialog.dismiss();
+                Toast.makeText(CatatPengeluaranAct.this, " Data Berhasil Disimpan ", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(CatatPengeluaranAct.this, Pengeluaran_List.class));
+            }
         }
-
-        //Proses Upload
-        final DatabaseReference newPost = db_Ref.push();
-        newPost.child("jumlah").setValue(nominal);
-        newPost.child("kategori").setValue(kategori);
-        newPost.child("detail").setValue(detail);
-        newPost.child("tgl_pengeluaran").setValue(tanggal);
-
-        //proses perhitungan uang user
-        Integer int_nominal = Integer.parseInt(nominal);
-        Integer int_uang_user = Integer.parseInt(uang_user);
-        Integer isi_dompet = int_uang_user - int_nominal;
-        final String dompet = isi_dompet.toString().trim();
-        db_RefNew.child("uang").setValue(dompet);
-        db_RefNew.child("tgl_pengeluaran_terakhir").setValue(tanggal);
-        db_RefNew.child("kategori_pengeluaran_terakhir").setValue(kategori);
-        progressDialog.dismiss();
-        Toast.makeText(CatatPengeluaranAct.this, " Data Berhasil Disimpan ", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(CatatPengeluaranAct.this, Pengeluaran_List.class));
     }
-
         //fungsi ambil tanggal hari ini
     public void ambilTanggalHariIni(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

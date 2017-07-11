@@ -129,6 +129,7 @@
             android:id="@+id/spn_convertwaktu"
             android:layout_width="110dp"
             android:layout_height="30dp"
+            android:background="#E23535"
             android:entries="@array/spn_lamanabung"
             >
         </Spinner>
@@ -199,6 +200,33 @@
                 android:text="Rp. 0"
                 android:textAlignment="center"
                 android:textSize="35dp" />
+
+            <TextView
+                android:id="@+id/TVstatus_plan"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="#32CD32"
+                android:padding="4dp"
+                android:layout_marginTop="10dp"
+                android:text="Completed"
+                android:visibility="gone"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/TVstatus_failed"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="#E23535"
+                android:padding="4dp"
+                android:layout_marginTop="10dp"
+                android:text="Failed"
+                android:visibility="gone"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+
+
             <EditText
                 android:id="@+id/etnabung"
                 android:layout_width="250dp"

@@ -77,6 +77,7 @@ public class SavingPlan_List extends AppCompatActivity {
                         viewHolder.setTabungan(String.valueOf(model.getTabungan()));
                         viewHolder.setTgltarget(String.valueOf(model.getTgltarget()));
                         viewHolder.setTglmulai(String.valueOf(model.getTglmulai()));
+                        viewHolder.setStatus(String.valueOf(model.getStatus()));
 
                         viewHolder.view.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -162,6 +163,11 @@ public class SavingPlan_List extends AppCompatActivity {
         public void setTarget(String target) {
             TextView target_plan = (TextView) view.findViewById(R.id.tv_targetCV);
             target_plan.setText("Jumlah target :"+"Rp "+target);
+        }
+
+        public void setStatus (String status){
+            TextView status_plan = (TextView) view.findViewById(R.id.tv_statusplanCV);
+            status_plan.setText("Status : "+status);
         }
     }
 
