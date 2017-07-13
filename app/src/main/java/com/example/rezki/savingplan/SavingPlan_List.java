@@ -23,6 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class SavingPlan_List extends AppCompatActivity {
 
     private RecyclerView planlist;
@@ -31,12 +34,16 @@ public class SavingPlan_List extends AppCompatActivity {
     private FirebaseAuth firebaseauth;
     private FirebaseAuth.AuthStateListener authlistener;
     private FirebaseUser user;
+    private static NumberFormat nf;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saving_plan__list);
+
+        Locale local = new Locale("in","ID");
+        nf = NumberFormat.getCurrencyInstance(local);
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Plans");
         databaseReference.keepSynced(true);
@@ -157,12 +164,14 @@ public class SavingPlan_List extends AppCompatActivity {
 
         public void setTabungan(String tabungan) {
             TextView tabungan_skrng = (TextView) view.findViewById(R.id.tv_tabunganCV);
-            tabungan_skrng.setText("Jumlah tabungan anda saat ini :"+"Rp "+tabungan);
+            String rp_tabungan = nf.format(Double.parseDouble(tabungan));
+            tabungan_skrng.setText("Jumlah tabungan anda saat ini : "+rp_tabungan);
         }
 
         public void setTarget(String target) {
             TextView target_plan = (TextView) view.findViewById(R.id.tv_targetCV);
-            target_plan.setText("Jumlah target :"+"Rp "+target);
+            String rp_target = nf.format(Double.parseDouble(target));
+            target_plan.setText("Target : "+rp_target);
         }
 
         public void setStatus (String status){

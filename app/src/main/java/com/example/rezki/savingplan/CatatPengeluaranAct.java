@@ -9,7 +9,9 @@ import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,9 +32,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Rezki on 6/7/2017.
@@ -54,7 +58,7 @@ public class CatatPengeluaranAct extends AppCompatActivity implements View.OnCli
 
     private String UserID, tanggal, uang_user;
 
-    private String Tanggal_HariIni;
+    private String Tanggal_HariIni, duit;
 
     private Calendar calendar;
 
@@ -82,6 +86,7 @@ public class CatatPengeluaranAct extends AppCompatActivity implements View.OnCli
 
         //menampung id xml ke variable
         et_nominal_pengeluaran = (EditText) findViewById(R.id.et_nominal_pengeluaran);
+        et_nominal_pengeluaran.addTextChangedListener(new CurrencyTextWatcher());
         et_detail_pengeluaran = (EditText) findViewById(R.id.et_detail_pengeluaran);
         tv_date_now2 = (TextView) findViewById(R.id.tv_date_now2);
         tv_date2 = (TextView) findViewById(R.id.tv_date2);
@@ -121,7 +126,7 @@ public class CatatPengeluaranAct extends AppCompatActivity implements View.OnCli
             Toast.makeText(this, "Pilih kategori pengeluaran", Toast.LENGTH_SHORT).show();
         } else {
             final String kategori = radioButton.getText().toString().trim();
-            final String nominal = et_nominal_pengeluaran.getText().toString().trim();
+            final String nominal = duit;
             final String detail = et_detail_pengeluaran.getText().toString().trim();
 
             //cek apakah form sudah terisi atau belum
@@ -143,13 +148,13 @@ public class CatatPengeluaranAct extends AppCompatActivity implements View.OnCli
                 progressDialog.show();
                 //Proses Upload
                 final DatabaseReference newPost = db_Ref.push();
-                newPost.child("jumlah").setValue(nominal);
+                newPost.child("jumlah").setValue(nominal.toString().trim().replace("Rp","").replace(".",""));
                 newPost.child("kategori").setValue(kategori);
                 newPost.child("detail").setValue(detail);
                 newPost.child("tgl_pengeluaran").setValue(tanggal);
 
                 //proses perhitungan uang user
-                Integer int_nominal = Integer.parseInt(nominal);
+                Integer int_nominal = Integer.parseInt(nominal.toString().trim().replace("Rp","").replace(".",""));
                 Integer int_uang_user = Integer.parseInt(uang_user);
                 Integer isi_dompet = int_uang_user - int_nominal;
                 final String dompet = isi_dompet.toString().trim();
@@ -253,4 +258,42 @@ public class CatatPengeluaranAct extends AppCompatActivity implements View.OnCli
 
     }
 
+    private class CurrencyTextWatcher implements TextWatcher {
+
+        boolean mEditing;
+
+        public CurrencyTextWatcher() {
+            mEditing = false;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String formatted = null;
+            if (!mEditing) {
+                mEditing = true;
+
+                Locale local = new Locale("in", "id");
+                String digits = s.toString().replaceAll("\\D", "");
+                NumberFormat nf = NumberFormat.getCurrencyInstance(local);
+                try {
+                    formatted = nf.format(Double.parseDouble(digits));
+                    s.replace(0, s.length(), formatted);
+                } catch (NumberFormatException nfe) {
+                    s.clear();
+                }
+                mEditing = false;
+            }
+            duit = formatted;
+        }
+    }
 }

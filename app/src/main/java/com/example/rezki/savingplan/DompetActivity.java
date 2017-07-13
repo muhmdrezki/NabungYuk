@@ -22,9 +22,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class DompetActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -75,8 +77,12 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String uang_user = (String) dataSnapshot.child("uang").getValue();
-                Uang_User = uang_user;
-                tv_uang.setText("Rp."+Uang_User);
+
+                Locale local = new Locale("id", "ID");
+                NumberFormat nf = NumberFormat.getCurrencyInstance(local);
+                String rupiah = nf.format(Double.parseDouble(uang_user));
+                tv_uang.setText(rupiah);
+
                 String kategoriTerakhir = (String) dataSnapshot.child("kategori_pemasukan_terakhir").getValue();
                 String tanggal_pemasukan = (String) dataSnapshot.child("tgl_pemasukan_terakhir").getValue();
                 String kategoriTerakhir2 = (String) dataSnapshot.child("kategori_pengeluaran_terakhir").getValue();

@@ -9,7 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,9 +38,12 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Currency;
 import java.util.Date;
+import java.util.Locale;
 
 public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClickListener{
 
@@ -52,8 +57,10 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
     private Spinner spn_convert;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-    private String tabunganbaru1, tbg, tampung, target, status_plan, Tanggal_HariIni, tgl;
+    private String tabunganbaru1, tbg, tampung, target, status_plan, Tanggal_HariIni, tgl, duit;
     private ProgressDialog progressdialog;
+
+    private NumberFormat nf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +86,8 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
 
 
         etnabung = (EditText) findViewById(R.id.etnabung);
+        etnabung.addTextChangedListener(new CurrencyTextWatcher());
+
         spn_convert = (Spinner) findViewById(R.id.spn_convertwaktu);
 
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.spn_lamanabung, R.layout.spinner_item);
@@ -92,24 +101,36 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
 
         ambilTanggalHariIni();
 
+        Locale local = new Locale("id", "ID");
+        nf = NumberFormat.getCurrencyInstance(local);
+
         databaseReference.child(mPostkey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String namaplan = (String) dataSnapshot.child("nama_plan").getValue();
                 String namatujuan = (String) dataSnapshot.child("tujuan_nabung").getValue();
+
                 String targetnabung = (String) dataSnapshot.child("target").getValue();
+                String rp_targetnabung = nf.format(Double.parseDouble(targetnabung));
+
                 String tabungan = (String) dataSnapshot.child("tabungan").getValue();
+                String rp_tabugan = nf.format(Double.parseDouble(tabungan));
+
                 String tgl_target = (String) dataSnapshot.child("tgltarget").getValue();
+
                 String nabungmgg = (String) dataSnapshot.child("nabungperbulan").getValue();
+                String rp_nabungmgg = nf.format(Double.parseDouble(nabungmgg));
+
                 status_plan = (String) dataSnapshot.child("status").getValue();
 
                 tv_namaplanfinal.setText(namaplan);
                 tv_namatujuanfinal.setText(namatujuan);
-                tv_targetnabung.setText("Rp. " + targetnabung);
-                tv_tabungan.setText("Rp. " + tabungan);
-                tv_nabungmgg.setText("Rp. " + nabungmgg + "/ Minggu");
-                tbg = tabungan;
+                tv_targetnabung.setText(rp_targetnabung);
+                tv_tabungan.setText(rp_tabugan);
+                tv_nabungmgg.setText(rp_nabungmgg + "/ Minggu");
                 tv_dateAkhir.setText(tgl_target);
+
+                tbg = tabungan;
                 tampung = nabungmgg;
                 target = targetnabung;
                 tgl = tgl_target;
@@ -135,6 +156,12 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
                     btn_tabung.setVisibility(View.INVISIBLE);
                     etnabung.setVisibility(View.INVISIBLE);
                     tv_failed.setVisibility(View.VISIBLE);
+                    AlertDialog.Builder alert = new AlertDialog.Builder(SavingPlanFinalAct.this);
+                    alert.setTitle("Sorry !");
+                    alert.setMessage("Target Anda Tidak Tercapai !");
+                    alert.setPositiveButton("OK", null);
+                    alert.show();
+                    databaseReference.child(mPostkey).child("status").setValue("Failed");
                 }
             }
             @Override
@@ -150,23 +177,27 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
     public void convertwaktu(){
         final String waktu = spn_convert.getSelectedItem().toString().trim();
         final String nabungmgg = tampung.toString().trim();
+        String rp_nabungmgg = nf.format(Double.parseDouble(nabungmgg));
 
                 if(waktu.equals("Minggu")){
-                    tv_nabungmgg.setText("Rp. "+tampung+" / Minggu");
+                    tv_nabungmgg.setText(rp_nabungmgg+" / Minggu");
                 } else if (waktu.equals("Bulan")){
                     Integer intnabungmgg = Integer.parseInt(nabungmgg);
                     Integer intnabungbln = intnabungmgg * 4;
-
                     String nabungbln = intnabungbln.toString().trim();
-                    tv_nabungmgg.setText("Rp. "+nabungbln+ " / Bulan");
+
+                    String rp_nabungbln = nf.format(Double.parseDouble(nabungbln));
+                    tv_nabungmgg.setText(rp_nabungbln+ " / Bulan");
+
                 } else if(waktu.equals("Hari")){
                     Integer intnabungmgg = Integer.parseInt(nabungmgg);
                     Integer divnabunghari = intnabungmgg / 7;
                     Integer modnabunghari = intnabungmgg % 7;
                     Integer hslnabunghari = divnabunghari + modnabunghari;
-
                     String nabunghari = hslnabunghari.toString().trim();
-                    tv_nabungmgg.setText("Rp. "+ nabunghari+" / Hari");
+
+                    String rp_nabunghari = nf.format(Double.parseDouble(nabunghari));
+                    tv_nabungmgg.setText(rp_nabunghari+" / Hari");
                 }
     }
 
@@ -207,40 +238,50 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
     }
 
     public void tabung() {
+
+        String nabung = duit;
+        if (TextUtils.isEmpty(nabung)) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(SavingPlanFinalAct.this);
+            alert.setMessage("Jumlah Tabungan Belum Diisi");
+            alert.setPositiveButton("OK", null);
+            alert.show();
+        } else {
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(final DialogInterface dialog, int which) {
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
                             //Yes button clicked
-                            String tabungan = tbg.toString().trim();
-                            String nabung = etnabung.getText().toString().trim();
-                            if (!TextUtils.isEmpty(tabungan)) {
-                                Integer inttabungan = Integer.parseInt(tabungan);
-                                Integer intnabung = Integer.parseInt(nabung);
-                                Integer tabunganbaru = intnabung + inttabungan;
-                                final String tabungan_baru = tabunganbaru.toString().trim();
-                                tabunganbaru1 = tabungan_baru;
-                                databaseReference.child(mPostkey).child("tabungan").setValue(tabunganbaru1);
-                                etnabung.setText("0");
+                            String rp_tabungan = nf.format(Double.parseDouble(tbg));
+                            String tabungan = rp_tabungan.toString().trim().replace("Rp", "").replace(".", "");
+                            String nabung = duit;
+                            Integer inttabungan = Integer.parseInt(tabungan);
+                            Integer intnabung = Integer.parseInt(nabung.toString().trim().replace("Rp", "").replace(".", ""));
+                            Integer tabunganbaru = intnabung + inttabungan;
+                            final String tabungan_baru = tabunganbaru.toString().trim();
+                            tabunganbaru1 = tabungan_baru;
+                            databaseReference.child(mPostkey).child("tabungan").setValue(tabunganbaru1);
+                            etnabung.setText("");
 
-                                Integer target_uang = Integer.parseInt(target);
-                                Integer uang_tabungan = Integer.parseInt(tabunganbaru1);
+                            Integer target_uang = Integer.parseInt(target);
+                            Integer uang_tabungan = Integer.parseInt(tabunganbaru1);
 
-                                if (uang_tabungan >= target_uang) {
+                            if (uang_tabungan >= target_uang) {
 
-                                    AlertDialog.Builder alert = new AlertDialog.Builder(SavingPlanFinalAct.this);
-                                    alert.setTitle("Congratulations ! ");
-                                    alert.setMessage("Anda telah mencapai target anda !");
-                                    alert.setPositiveButton("OK", null);
-                                    alert.show();
+                                AlertDialog.Builder alert = new AlertDialog.Builder(SavingPlanFinalAct.this);
+                                alert.setTitle("Congratulations ! ");
+                                alert.setMessage("Anda telah mencapai target anda !");
+                                alert.setPositiveButton("OK", null);
+                                alert.show();
 
-                                    databaseReference.child(mPostkey).child("status").setValue("Completed");
-                                    btn_tabung.setVisibility(View.INVISIBLE);
-                                    etnabung.setVisibility(View.INVISIBLE);
-                                }
-
-                                }
+                                databaseReference.child(mPostkey).child("status").setValue("Completed");
+                                btn_tabung.setVisibility(View.INVISIBLE);
+                                etnabung.setVisibility(View.INVISIBLE);
+                            }
+                            AlertDialog.Builder alert1 = new AlertDialog.Builder(SavingPlanFinalAct.this);
+                            alert1.setMessage("Tabungan Berhasil Ditambahkan");
+                            alert1.setPositiveButton("OK", null);
+                            alert1.show();
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:
@@ -251,12 +292,12 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
                 }
             };
 
-            Toast.makeText(this, "Tabungan Berhasil Ditambahkan" , Toast.LENGTH_SHORT).show();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Uang Sejumlah Rp. "+etnabung.getText().toString().trim()+" akan ditambahkan ke tabungan anda").setPositiveButton("Ya", dialogClickListener)
+            builder.setMessage("Uang sejumlah " + etnabung.getText().toString().trim() + " akan ditambahkan ke tabungan anda").setPositiveButton("Ya", dialogClickListener)
                     .setNegativeButton("Tidak", dialogClickListener).show();
-        }
 
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -297,6 +338,44 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
             tabung();
         } else if(view==btn_apply){
             convertwaktu();
+        }
+    }
+
+    private class CurrencyTextWatcher implements TextWatcher {
+        boolean mEditing;
+
+        public CurrencyTextWatcher() {
+            mEditing = false;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String formatted = null;
+            if (!mEditing) {
+                mEditing = true;
+
+                Locale local = new Locale("in", "id");
+                String digits = s.toString().replaceAll("\\D", "");
+                NumberFormat nf = NumberFormat.getCurrencyInstance(local);
+                try {
+                    formatted = nf.format(Double.parseDouble(digits));
+                    s.replace(0, s.length(), formatted);
+                } catch (NumberFormatException nfe) {
+                    s.clear();
+                }
+                mEditing = false;
+            }
+            duit = formatted;
         }
     }
 }

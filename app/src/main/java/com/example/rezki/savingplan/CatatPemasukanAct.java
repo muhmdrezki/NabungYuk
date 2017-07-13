@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.text.TextWatcher;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,9 +35,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class CatatPemasukanAct extends AppCompatActivity implements View.OnClickListener{
 
@@ -51,7 +55,7 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
 
     private ProgressDialog progressDialog;
 
-    private String UserID, tanggal, uang_user, nama;
+    private String UserID, tanggal, uang_user, nama, duit;
 
     private String Tanggal_HariIni;
 
@@ -93,6 +97,8 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
         btn_simpan.setOnClickListener(this);
 
         ambilTanggalHariIni();
+
+        et_nominal.addTextChangedListener(new CurrencyTextWatcher());
 
         //Mengambil data dari FIREBASE
         db_RefNew.addValueEventListener(new ValueEventListener() {
@@ -163,17 +169,15 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
 
     //code untuk mencatat pemasukkan // menyimpan pemasukan ke FIREBASE
     public void catatpemasukan() {
-
+        //Menampung data dari TextField ke variable tampung
+        final String nominal = duit;
+        final String detail = et_detail_pemasukan.getText().toString().trim();
         int SelectedId = radiogroup_kategori.getCheckedRadioButtonId();
         radioButton = (RadioButton) findViewById(SelectedId);
         if (radiogroup_kategori.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this, "Pilih kategori pengeluaran", Toast.LENGTH_SHORT).show();
         } else {
-            //Menampung data dari TextField ke variable tampung
             final String kategori = radioButton.getText().toString().trim();
-            final String nominal = et_nominal.getText().toString().trim();
-            final String detail = et_detail_pemasukan.getText().toString().trim();
-
             if (TextUtils.isEmpty(nominal)) {
                 Toast.makeText(this, "Harap isi nominal pemasukan", Toast.LENGTH_LONG).show();
             } else if (TextUtils.isEmpty(detail)) {
@@ -194,13 +198,13 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
                 //Proses Upload
                 //Database Push
                 final DatabaseReference newPost = db_Ref.push();
-                newPost.child("jumlah").setValue(nominal);
+                newPost.child("jumlah").setValue(nominal.toString().trim().replace("Rp","").replace(".",""));
                 newPost.child("kategori").setValue(kategori);
                 newPost.child("detail").setValue(detail);
                 newPost.child("tgl_pemasukan").setValue(tanggal);
 
                 //menghitung berapa uang yang ada di dompet
-                Integer int_nominal = Integer.parseInt(nominal);
+                Integer int_nominal = Integer.parseInt(nominal.toString().trim().replace("Rp","").replace(".",""));
                 Integer int_uang_user = Integer.parseInt(uang_user);
                 Integer isi_dompet = int_nominal + int_uang_user;
                 final String dompet = isi_dompet.toString().trim();
@@ -257,4 +261,43 @@ public class CatatPemasukanAct extends AppCompatActivity implements View.OnClick
 
     }
 
+    private class CurrencyTextWatcher implements TextWatcher {
+
+        boolean mEditing;
+
+        public CurrencyTextWatcher() {
+            mEditing = false;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public synchronized void afterTextChanged(Editable s) {
+            String formatted = null;
+            if (!mEditing) {
+                mEditing = true;
+
+                Locale local = new Locale("in", "id");
+                String digits = s.toString().replaceAll("\\D", "");
+                NumberFormat nf = NumberFormat.getCurrencyInstance(local);
+                try {
+                    formatted = nf.format(Double.parseDouble(digits));
+                    s.replace(0, s.length(), formatted);
+                } catch (NumberFormatException nfe) {
+                    s.clear();
+                }
+                mEditing = false;
+            }
+            duit = formatted;
+        }
+
+    }
 }

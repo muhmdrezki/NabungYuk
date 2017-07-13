@@ -29,6 +29,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class Pemasukan_List extends AppCompatActivity {
 
     private RecyclerView list_pemasukan;
@@ -151,7 +154,10 @@ public class Pemasukan_List extends AppCompatActivity {
 
         public void setJumlah(String jumlah) {
             TextView jml= (TextView) view.findViewById(R.id.tv_Jumlah_Pemasukan);
-            jml.setText("Jumlah Pemasukan : Rp. "+jumlah);
+            Locale local = new Locale("id", "ID");
+            NumberFormat nf = NumberFormat.getCurrencyInstance(local);
+            String rupiah = nf.format(Double.parseDouble(jumlah));
+            jml.setText("Jumlah Pemasukan : "+rupiah);
         }
 
         public void setDetail(String detail) {

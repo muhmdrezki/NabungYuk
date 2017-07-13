@@ -17,6 +17,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 /**
  * Created by Rezki on 6/7/2017.
  */
@@ -107,7 +110,10 @@ public class Pengeluaran_List extends AppCompatActivity{
 
         public void setJumlah(String jumlah) {
             TextView jml= (TextView) view.findViewById(R.id.tv_Jumlah_Pemasukan);
-            jml.setText("Jumlah Pengeluaran : Rp. "+jumlah);
+            Locale local = new Locale("id", "ID");
+            NumberFormat nf = NumberFormat.getCurrencyInstance(local);
+            String rupiah = nf.format(Double.parseDouble(jumlah));
+            jml.setText("Jumlah Pengeluaran : "+rupiah);
         }
 
         public void setDetail(String detail) {
