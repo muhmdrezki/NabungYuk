@@ -36,7 +36,6 @@
             android:textColorHint="#f9f9f9f9"
             android:layout_height="wrap_content"
             android:hint="Jumlah Pemasukkan Anda /Bulan"
-            android:inputType="number"
             android:layout_gravity="center"
             />
         <TextView
@@ -59,7 +58,6 @@
             android:textColorHint="#f9f9f9f9"
             android:layout_height="wrap_content"
             android:hint="Jumlah Pengeluaran Anda /Bulan"
-            android:inputType="number"
             android:layout_gravity="center"
             />
         <TextView
@@ -82,7 +80,6 @@
             android:textColorHint="#f9f9f9f9"
             android:layout_height="wrap_content"
             android:hint="Target Menabung Anda"
-            android:inputType="number"
             android:layout_gravity="center"
             />
         <TextView

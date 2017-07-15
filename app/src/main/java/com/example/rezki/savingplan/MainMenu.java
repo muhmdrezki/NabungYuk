@@ -16,8 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class MainMenu extends AppCompatActivity implements View.OnClickListener{
+public class MainMenu extends AppCompatActivity implements View.OnClickListener {
 
 
     private FirebaseAuth auth;
@@ -26,11 +32,14 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
     private TextView tv_savingplan;
     private TextView tv_dompet;
     private TextView tv_logout;
+    private TextView tv_settings;
 
     private ImageView iv_savingplan;
     private ImageView iv_dompet;
     private ImageView iv_logout;
+    private ImageView iv_settings;
 
+    private String nama_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +78,14 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
         iv_logout = (ImageView) findViewById(R.id.iv_logout);
         iv_logout.setOnClickListener(this);
 
+        tv_settings = (TextView) findViewById(R.id.tv_Settings);
+        tv_settings.setOnClickListener(this);
 
-
+        iv_settings = (ImageView) findViewById(R.id.iv_settings);
+        iv_settings.setOnClickListener(this);
     }
+
+
 
     boolean doubleBackToExitPressedOnce = false;
     @Override
@@ -135,6 +149,16 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
             loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(loginIntent);
         }
+        if(view == iv_settings){
+            Intent loginIntent = new Intent(MainMenu.this, Config_Activity.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(loginIntent);
+        }
+        if(view == tv_settings){
+            Intent loginIntent = new Intent(MainMenu.this, Config_Activity.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(loginIntent);
+        }
     }
 
     @Override
@@ -158,4 +182,5 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signOut();
     }
+
 }

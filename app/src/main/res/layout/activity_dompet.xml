@@ -19,9 +19,47 @@
         android:textSize="18dp"/>
 
     <TextView
+        android:id="@+id/tv_statuang3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="40dp"
+        android:textSize="17dp"
+        android:textColor="#F9F9F9"
+        android:background="#E23535"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:text="Status Keuangan"/>
+
+    <TextView
+        android:id="@+id/tv_statuang2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="40dp"
+        android:textSize="17dp"
+        android:textColor="#F9F9F9"
+        android:background="#FF4500"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="Status Keuangan"/>
+
+    <TextView
+        android:id="@+id/tv_statuang0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="40dp"
+        android:textSize="17dp"
+        android:textColor="#F9F9F9"
+        android:background="#32CD32"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="Status Keuangan"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:padding="7dp"
         android:text="UANG ANDA"
         android:textColor="#F9F9F9"

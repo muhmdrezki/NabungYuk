@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,6 +35,8 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
     private Button btn_pemasukan, btn_pengeluaran;
     private TextView tv_tanggal_hariini, tv_uang, tv_tgl_pemasukan_terakhir, tv_tgl_pengeluaran_terakhir;
 
+    private TextView tv_stat0, tv_stat2, tv_stat3;
+
     private FirebaseAuth auth;
     private FirebaseUser user;
     private DatabaseReference db_Ref;
@@ -40,7 +44,7 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
 
     private Query db_Query;
 
-    private String Uang_User, tanggal;
+    private String Uang_User, tanggal,user2;
     private ProgressDialog progressDialog;
 
     @Override
@@ -70,22 +74,46 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
         btn_pengeluaran = (Button) findViewById(R.id.btn_pengeluaran);
         btn_pengeluaran.setOnClickListener(this);
 
+        tv_stat0 = (TextView) findViewById(R.id.tv_statuang0);
+        tv_stat2 = (TextView) findViewById(R.id.tv_statuang2);
+        tv_stat3 = (TextView) findViewById(R.id.tv_statuang3);
 
         //Mengambil data uang user
         //Mengambil Waktu Pengeluaran dan Pemasukan Terakhir User
         db_Ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String uang_user = (String) dataSnapshot.child("uang").getValue();
-
-                Locale local = new Locale("id", "ID");
-                NumberFormat nf = NumberFormat.getCurrencyInstance(local);
-                String rupiah = nf.format(Double.parseDouble(uang_user));
-                tv_uang.setText(rupiah);
-
                 String kategoriTerakhir = (String) dataSnapshot.child("kategori_pemasukan_terakhir").getValue();
-                String tanggal_pemasukan = (String) dataSnapshot.child("tgl_pemasukan_terakhir").getValue();
                 String kategoriTerakhir2 = (String) dataSnapshot.child("kategori_pengeluaran_terakhir").getValue();
+                String uang_user = (String) dataSnapshot.child("uang").getValue();
+                Integer uang = Integer.parseInt(uang_user);
+
+                if (!kategoriTerakhir.equals("-") && uang<=0 ){
+                    btn_pengeluaran.setEnabled(false);
+                    tv_stat3.setText("Uang Anda Habis!");
+                    tv_stat3.setVisibility(View.VISIBLE);
+                } else if (kategoriTerakhir.equals("-") && uang<=0){
+                    btn_pengeluaran.setEnabled(false);
+                    tv_stat0.setText("Silahkan Catat Pemasukan Terlebih Dahulu");
+                    tv_stat0.setVisibility(View.VISIBLE);
+                    tv_stat3.setVisibility(View.GONE);
+                } else if(uang>0 && uang<100000){
+                    btn_pengeluaran.setEnabled(true);
+                    tv_stat2.setText("Anda Harus Lebih Hemat!");
+                    tv_stat2.setVisibility(View.VISIBLE);
+                    tv_stat3.setVisibility(View.GONE);
+                } else if(uang>=100000){
+                    btn_pengeluaran.setEnabled(true);
+                    tv_stat0.setText("Status Keuangan : Aman");
+                    tv_stat0.setVisibility(View.VISIBLE);
+                    tv_stat3.setVisibility(View.GONE);
+                }
+                    Locale local = new Locale("id", "ID");
+                    NumberFormat nf = NumberFormat.getCurrencyInstance(local);
+                    String rupiah = nf.format(Double.parseDouble(uang_user));
+                    tv_uang.setText(rupiah);
+
+                String tanggal_pemasukan = (String) dataSnapshot.child("tgl_pemasukan_terakhir").getValue();
                 String tanggal_pengeluaran = (String) dataSnapshot.child("tgl_pengeluaran_terakhir").getValue();
                 tv_tgl_pemasukan_terakhir.setText(tanggal_pemasukan+" dari "+kategoriTerakhir);
                 tv_tgl_pengeluaran_terakhir.setText(tanggal_pengeluaran+" untuk "+kategoriTerakhir2);
@@ -98,7 +126,6 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
         ambilTanggalHariIni();
-
     }
 
     //Code untuk double back klik exit

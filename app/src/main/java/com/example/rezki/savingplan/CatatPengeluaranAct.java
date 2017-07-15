@@ -2,12 +2,14 @@ package com.example.rezki.savingplan;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.text.DateFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -118,7 +120,6 @@ public class CatatPengeluaranAct extends AppCompatActivity implements View.OnCli
 
     //fungsi penyimpanan data
     public void catatpengeluaran() {
-
         //menampung nilai dari text field ke variable sementara
         int SelectedId = radiogroup_kategori.getCheckedRadioButtonId();
         radioButton = (RadioButton) findViewById(SelectedId);
@@ -128,10 +129,13 @@ public class CatatPengeluaranAct extends AppCompatActivity implements View.OnCli
             final String kategori = radioButton.getText().toString().trim();
             final String nominal = duit;
             final String detail = et_detail_pengeluaran.getText().toString().trim();
-
+            Integer int_nominal = Integer.parseInt(nominal.toString().trim().replace("Rp","").replace(".",""));
+            Integer int_uang_user = Integer.parseInt(uang_user);
             //cek apakah form sudah terisi atau belum
             if (TextUtils.isEmpty(nominal)) {
                 Toast.makeText(this, "Harap isi nominal pengeluaran", Toast.LENGTH_SHORT).show();
+            } else if(int_nominal>int_uang_user){
+                Toast.makeText(this, "Uang Anda Tidak Cukup", Toast.LENGTH_SHORT).show();
             } else if (TextUtils.isEmpty(detail)) {
                 Toast.makeText(this, "Harap isi detail pengeluaran", Toast.LENGTH_SHORT).show();
             } else {
@@ -154,9 +158,9 @@ public class CatatPengeluaranAct extends AppCompatActivity implements View.OnCli
                 newPost.child("tgl_pengeluaran").setValue(tanggal);
 
                 //proses perhitungan uang user
-                Integer int_nominal = Integer.parseInt(nominal.toString().trim().replace("Rp","").replace(".",""));
-                Integer int_uang_user = Integer.parseInt(uang_user);
-                Integer isi_dompet = int_uang_user - int_nominal;
+                Integer int_nominal1 = Integer.parseInt(nominal.toString().trim().replace("Rp","").replace(".",""));
+                Integer int_uang_user1 = Integer.parseInt(uang_user);
+                Integer isi_dompet = int_uang_user1 - int_nominal1;
                 final String dompet = isi_dompet.toString().trim();
                 db_RefNew.child("uang").setValue(dompet);
                 db_RefNew.child("tgl_pengeluaran_terakhir").setValue(tanggal);

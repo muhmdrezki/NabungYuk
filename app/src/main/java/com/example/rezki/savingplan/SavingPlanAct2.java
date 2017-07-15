@@ -9,7 +9,9 @@ import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +25,9 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.NumberFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class SavingPlanAct2 extends AppCompatActivity implements View.OnClickListener{
 
@@ -31,9 +35,10 @@ public class SavingPlanAct2 extends AppCompatActivity implements View.OnClickLis
     private TextView targetwaktu;
     private Button kalkulasi, btn_date;
 
-    private String nama_plan1, tujuan_nabung1;
+    private String nama_plan1, tujuan_nabung1, duit;
     private Calendar calendar;
 
+    private NumberFormat nf;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -43,9 +48,17 @@ public class SavingPlanAct2 extends AppCompatActivity implements View.OnClickLis
 
         calendar = Calendar.getInstance();
 
+        Locale local = new Locale("id", "ID");
+        nf = NumberFormat.getCurrencyInstance(local);
+
         jmlpengeluaran = (EditText) findViewById(R.id.jmlpengeluaran);
+        jmlpengeluaran.addTextChangedListener(new CurrencyTextWatcher());
+
         jmlpemasukan = (EditText) findViewById(R.id.jmlpemasukkan);
+        jmlpemasukan.addTextChangedListener(new CurrencyTextWatcher());
+
         targetnabung = (EditText) findViewById(R.id.targetnabung);
+        targetnabung.addTextChangedListener(new CurrencyTextWatcher());
         targetwaktu = (TextView) findViewById(R.id.targetwaktu);
 
         btn_date = (Button) findViewById(R.id.btn_date);
@@ -168,7 +181,47 @@ public class SavingPlanAct2 extends AppCompatActivity implements View.OnClickLis
                 startActivity(pindah);
             }
         }
+
+    private class CurrencyTextWatcher implements TextWatcher {
+
+        boolean mEditing;
+
+        public CurrencyTextWatcher() {
+            mEditing = false;
+        }
+
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String formatted = null;
+            if (!mEditing) {
+                mEditing = true;
+
+                Locale local = new Locale("in", "id");
+                String digits = s.toString().replaceAll("\\D", "");
+                NumberFormat nf = NumberFormat.getCurrencyInstance(local);
+                try {
+                    formatted = nf.format(Double.parseDouble(digits));
+                    s.replace(0, s.length(), formatted);
+                } catch (NumberFormatException nfe) {
+                    s.clear();
+                }
+                mEditing = false;
+            }
+            duit = formatted;
+        }
     }
+}
 
 
 

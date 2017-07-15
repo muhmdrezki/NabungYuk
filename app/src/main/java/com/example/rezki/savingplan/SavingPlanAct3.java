@@ -28,10 +28,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickListener{
 
@@ -52,11 +54,15 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
     private String tanggal_skrng;
 
     private Integer bulan, hari, tahun;
+    private NumberFormat nf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_savingplanact3);
+
+        Locale local = new Locale("id","ID");
+        nf = NumberFormat.getCurrencyInstance(local);
 
         progressdialog = new ProgressDialog(this);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Plans");
@@ -88,9 +94,9 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
         String tujuan_nabung = b.getString("tujuan_nabung");
         String nama_plan = b.getString("nama_plan");
 
-        pengeluaranTV.setText("Rp."+pengeluaran);
-        pemasukanTV.setText("Rp."+pemasukkan);
-        targetnabungTV.setText("Rp."+target);
+        pengeluaranTV.setText(pengeluaran);
+        pemasukanTV.setText(pemasukkan);
+        targetnabungTV.setText(target);
 
 
         pengeluaran1 = pengeluaran;
@@ -193,9 +199,9 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
     }
 
     public void hitung() {
-        final String pengeluaran = pengeluaran1.toString().trim();
-        final String pemasukkan = pemasukkan1.toString().trim();
-        final String target = target1.toString().trim();
+        final String pengeluaran = pengeluaran1.toString().trim().replace("Rp","").replace(".","");
+        final String pemasukkan = pemasukkan1.toString().trim().replace("Rp","").replace(".","");
+        final String target = target1.toString().trim().replace("Rp","").replace(".","");
         final String satuan_bulan = bulan.toString().trim();
         final String satuan_hari = hari.toString().trim();
         final String satuan_tahun = tahun.toString().trim();
@@ -243,8 +249,11 @@ public class SavingPlanAct3 extends AppCompatActivity implements View.OnClickLis
             final String pegangan = uangjaga.toString().trim();
             final String lama = intlama.toString().trim();
 
-            sisauangTV.setText("Rp " + pegangan + " /bulan");
-            nabungandaTV.setText("Rp " + nabung + " /minggu");
+            String rp_nabung = nf.format(Double.parseDouble(nabung));
+            String rp_pegangan = nf.format(Double.parseDouble(pegangan));
+
+            sisauangTV.setText(rp_pegangan + " /bulan");
+            nabungandaTV.setText(rp_nabung + " /minggu");
             lamanabungTV.setText("Selama " + lama + " minggu");
 
             nabungbulansave = nabung;
