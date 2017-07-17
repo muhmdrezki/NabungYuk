@@ -89,11 +89,11 @@ public class DompetActivity extends AppCompatActivity implements View.OnClickLis
                 Integer uang = Integer.parseInt(uang_user);
 
                 if (!kategoriTerakhir.equals("-") && uang<=0 ){
-                    btn_pengeluaran.setEnabled(false);
+                    //btn_pengeluaran.setEnabled(false);
                     tv_stat3.setText("Uang Anda Habis!");
                     tv_stat3.setVisibility(View.VISIBLE);
                 } else if (kategoriTerakhir.equals("-") && uang<=0){
-                    btn_pengeluaran.setEnabled(false);
+                    //btn_pengeluaran.setEnabled(false);
                     tv_stat0.setText("Silahkan Catat Pemasukan Terlebih Dahulu");
                     tv_stat0.setVisibility(View.VISIBLE);
                     tv_stat3.setVisibility(View.GONE);

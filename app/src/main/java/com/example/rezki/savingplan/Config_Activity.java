@@ -66,9 +66,13 @@ public class Config_Activity extends AppCompatActivity {
             }
         });
 
+         auth = FirebaseAuth.getInstance();
+         user = auth.getCurrentUser();
+
         //Default Switch
         SharedPreferences sharedPrefs = getSharedPreferences("com.example.rezki.savingplan", MODE_PRIVATE);
-        notif_switch.setChecked(sharedPrefs.getBoolean("stat", false));
+        //notif_switch.setChecked(sharedPrefs.getBoolean("stat", false));
+        notif_switch.setChecked(sharedPrefs.getBoolean(user.getUid(),false));
 
         //Listener Supaya Bisa di Switch ON/OFF
         notif_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -77,15 +81,15 @@ public class Config_Activity extends AppCompatActivity {
                 if(isChecked){
                     Toast.makeText(Config_Activity.this, "Notification Turned ON", Toast.LENGTH_LONG).show();
                     SharedPreferences.Editor editor = getSharedPreferences("com.example.rezki.savingplan", MODE_PRIVATE).edit();
-                    editor.putBoolean("stat", true);
+                    editor.putBoolean(user.getUid(),true);
                     editor.commit();
 
                     calendar = Calendar.getInstance();
                     Intent intent = new Intent(getApplicationContext(),Receiver.class);
                     calendar.setTimeInMillis(System.currentTimeMillis());
                     //calendar.set(Calendar.DAY_OF_WEEK,1);
-                    calendar.set(Calendar.HOUR_OF_DAY,22);
-                    calendar.set(Calendar.MINUTE,01);
+                    calendar.set(Calendar.HOUR_OF_DAY,11);
+                    calendar.set(Calendar.MINUTE,58);
                     calendar.set(Calendar.SECOND,45);
 
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
@@ -95,7 +99,7 @@ public class Config_Activity extends AppCompatActivity {
                 } else if(!isChecked) {
                     Toast.makeText(Config_Activity.this, "Notification Turned OFF", Toast.LENGTH_LONG).show();
                     SharedPreferences.Editor editor = getSharedPreferences("com.example.rezki.savingplan", MODE_PRIVATE).edit();
-                    editor.putBoolean("stat", false);
+                    editor.putBoolean(user.getUid(),false);
                     editor.commit();
                 }
             }

@@ -234,7 +234,7 @@ public class SavingPlanFinalAct extends AppCompatActivity implements View.OnClic
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         Tanggal_HariIni = dateFormat.format(date);
-        Toast.makeText(this, Tanggal_HariIni, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, Tanggal_HariIni, Toast.LENGTH_SHORT).show();
     }
 
     public void tabung() {

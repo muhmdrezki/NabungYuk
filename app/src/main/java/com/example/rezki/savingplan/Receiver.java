@@ -1,10 +1,14 @@
 package com.example.rezki.savingplan;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompatBase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,28 +44,35 @@ public class Receiver extends BroadcastReceiver {
         Intent rep_intent = new Intent(context, MainMenu.class);
         rep_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
+        RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
         final PendingIntent pendingIntent = PendingIntent.getActivity(context,100,rep_intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
         nameRef.child(userid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String nama_user = (String) dataSnapshot.child("nama").getValue();
+                long v[] = {500,1000};
+                Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 android.support.v4.app.NotificationCompat.Builder builder = new android.support.v4.app.NotificationCompat.Builder(context)
                         .setContentIntent(pendingIntent)
-                        .setSmallIcon(R.drawable.icon)
+                        .setSmallIcon(R.mipmap.nb_launcher)
                         .setContentTitle("Halo, "+nama_user)
-                        .setContentText("Sudahkan anda menabung hari ini?")
+                        .setContentText("Sudahkah anda menabung hari ini?")
+                        .setVibrate(v)
+                        .setSound(uri)
                         .setAutoCancel(true);
                 notifMAnager.notify(100,builder.build());
+
+                Notification notif = builder.build();
+                notif.defaults |= Notification.DEFAULT_VIBRATE;
+                notif.defaults |= Notification.DEFAULT_SOUND;
+                notif.defaults |=Notification.DEFAULT_LIGHTS;
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
 
         });
-
-
-
-
     }
 }

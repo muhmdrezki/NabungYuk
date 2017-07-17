@@ -1,9 +1,11 @@
 package com.example.rezki.savingplan;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -134,10 +136,48 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             startActivity(loginIntent);
         }
         if (view == tv_logout) {
-            logout();
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(final DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            logout();
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            dialog.dismiss();
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Anda yakin akan Logout?").setPositiveButton("Ya", dialogClickListener)
+                    .setNegativeButton("Tidak", dialogClickListener).show();
         }
         if (view == iv_logout) {
-            logout();
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(final DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            logout();
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            dialog.dismiss();
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Anda yakin akan Logout?").setPositiveButton("Ya", dialogClickListener)
+                    .setNegativeButton("Tidak", dialogClickListener).show();
         }
         if (view == iv_dompet) {
             Intent loginIntent = new Intent(MainMenu.this, DompetActivity.class);

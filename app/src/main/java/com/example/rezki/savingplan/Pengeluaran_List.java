@@ -3,6 +3,7 @@ package com.example.rezki.savingplan;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +15,11 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -75,8 +79,6 @@ public class Pengeluaran_List extends AppCompatActivity{
                         viewHolder.setDetail(String.valueOf(model.getDetail()));
                         viewHolder.setJumlah(String.valueOf(model.getJumlah()));
                         viewHolder.setTgl_pengeluaran(String.valueOf(model.getTgl_pengeluaran()));
-
-
                     }
                 };
                 list_pengeluaran.setAdapter(firebaseRecyclerAdapter);
@@ -131,12 +133,31 @@ public class Pengeluaran_List extends AppCompatActivity{
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onPrepareOptionsMenu(final Menu menu) {
 
-        if(item.getItemId()== R.id.action_add){
+        DatabaseReference db_uang = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
 
+        db_uang.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String uang = (String) dataSnapshot.child("uang").getValue();
+                if (uang.equals("0")) {
+                    menu.findItem(R.id.action_add).setEnabled(false);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+
+        if (item.getItemId() == R.id.action_add) {
             startActivity(new Intent(Pengeluaran_List.this,CatatPengeluaranAct.class));
-
         } else if ( item.getItemId() == R.id.My_Dompet){
             startActivity(new Intent(Pengeluaran_List.this,DompetActivity.class));
 
